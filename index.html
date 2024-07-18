@@ -1,0 +1,121 @@
+﻿<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Genç Kalfa</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Impact&display=swap');
+
+        body {
+            background-image: url('https://i.hizliresim.com/ldl3yeu.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: 'Impact', sans-serif;
+            color: white;
+            text-align: center;
+        }
+        .logo {
+            width: 200px;
+            height: 200px;
+            margin-bottom: 1em;
+            cursor: pointer;
+        }
+        .header {
+            font-size: 3em;
+            margin-bottom: 0.5em;
+        }
+        .sub-header {
+            font-size: 2em;
+            margin-bottom: 1em;
+        }
+        .container {
+            width: 90%;
+            max-width: 800px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(5px);
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        .buttons {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 1em;
+            margin-top: 2em;
+        }
+        .button {
+            background-color: rgba(28, 58, 87, 0.8);
+            border: none;
+            padding: 1em 2em;
+            text-align: center;
+            color: white;
+            font-size: 1.2em;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 150px;
+            text-decoration: none;
+        }
+        .button:hover {
+            background-color: rgba(40, 84, 128, 0.8);
+        }
+        .button img {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 0.5em;
+        }
+
+        @media (max-width: 600px) {
+            .header {
+                font-size: 2em;
+            }
+            .sub-header {
+                font-size: 1.5em;
+            }
+            .button {
+                width: 120px;
+                padding: 0.5em 1em;
+            }
+            .button img {
+                width: 60px;
+                height: 60px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="https://www.youtube.com/@GENCKALFA?sub_confirmation=1" target="_blank">
+            <img class="logo" src="https://i.hizliresim.com/98issid.png" alt="Genç Kalfa Logo">
+        </a>
+        <div class="header">Genç Kalfa</div>
+        <div class="sub-header">Hangisini İndirmek İstersin?</div>
+        <div class="buttons">
+            <a href="rufusindir.html" class="button">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/d/de/Rufus-logo.png" alt="Rufus">
+                RUFUS
+            </a>
+            <a href="ddt4allindir.html" class="button">
+                <img src="https://i.hizliresim.com/fed3r2n.png" alt="DDT4ALL">
+                DDT4ALL
+            </a>
+            <a href="icecreamscreen.html" class="button">
+                <img src="https://i.hizliresim.com/pwi0vjh.jpeg" alt="Icecream Screen Recorder Pro">
+                ICECREAM SCREEN RECORDER PRO
+            </a>
+        </div>
+    </div>
+</body>
+</html>
