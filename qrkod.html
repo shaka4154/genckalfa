@@ -1,100 +1,102 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>URL'yi QR Koda Dönüştür</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&display=swap" rel="stylesheet"> <!-- Archivo Black fontu eklendi -->
     <style>
         body {
-            font-family: 'Impact', sans-serif; /* Yazı tipi Impact olarak ayarlandı */
+            font-family: 'Impact', sans-serif;
+            background-image: url('https://i.hizliresim.com/ldl3yeu.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            margin: 0;
+            padding: 0;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             height: 100vh;
-            background-image: url('https://i.hizliresim.com/ldl3yeu.png'); /* Arka plan görseli URL'si */
-            background-size: cover; /* Görselin tüm ekranı kaplamasını sağlar */
-            background-position: center; /* Görselin ortalanmasını sağlar */
-            margin: 0;
-            color: #fff; /* Genel yazı rengi beyaz */
-            position: relative; /* Konumlandırma için gerekli */
-        }
-        h1 {
-            font-size: 3rem; /* Başlık boyutu büyütüldü */
-            color: #ffffff; /* Başlık rengi beyaz olarak ayarlandı */
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6); /* Başlığa hafif gölge efekti eklendi */
-            margin-top: 80px; /* Başlığın üst kısmındaki boşluğu ayarla */
-            margin-bottom: 20px;
-            position: relative; /* Resim konumlandırılması için gerekli */
+            color: white;
+            text-align: center;
         }
         .logo {
-            position: absolute;
-            top: 70px; /* Başlığın biraz daha aşağısına yerleştirildi */
-            left: 50%;
-            transform: translateX(-50%);
-            cursor: pointer; /* Resme tıklandığında el işareti görünümü */
-            width: 150px; /* Logo boyutu büyütüldü */
-            z-index: 1; /* Logoyu diğer öğelerin üstünde göstermek için */
+            width: 150px;
+            height: auto;
+            margin-bottom: 1em;
+            cursor: pointer;
+        }
+        .header {
+            font-size: 2em;
+            margin-bottom: 0.5em;
+        }
+        .container {
+            width: 90%;
+            max-width: 500px;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
         }
         input, button {
-            width: 80%;
-            max-width: 400px;
-            padding: 12px;
-            margin: 10px;
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
             font-size: 1rem;
-            border: none;
             border-radius: 5px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Giriş ve butonlara gölge efekti eklendi */
-        }
-        input {
-            background-color: #ffffff; /* Giriş kutusunun arka plan rengi beyaz */
-            color: #000000; /* Giriş kutusunun yazı rengi siyah */
+            border: 1px solid #ccc;
         }
         button {
-            background-color: #007bff; /* Buton rengi */
-            color: #ffffff; /* Buton yazı rengi */
+            background-color: #007bff;
+            color: white;
             cursor: pointer;
-            font-weight: bold; /* Buton yazı tipi kalın */
-            transition: background-color 0.3s ease; /* Buton hover geçiş efekti */
+            border: none;
         }
         button:hover {
-            background-color: #0056b3; /* Buton hover rengi */
+            background-color: #0056b3;
         }
         #qrcode {
             margin-top: 20px;
         }
-        .download-link {
-            display: block;
-            margin-top: 20px;
-            text-decoration: none;
-            color: #ffffff; /* QR kodu indir yazısının rengi beyaz yapıldı */
-            font-weight: bold;
-        }
-        .menu-link {
+        .back-button {
             position: absolute;
-            top: 20px; /* Sol üst köşeye yerleştirildi */
-            left: 20px;
-            color: #fff; /* Menü yazı rengi beyaz */
-            font-size: 1rem; /* Yazı boyutu */
-            font-family: 'Archivo Black', sans-serif; /* Archivo Black fontu kullanıldı */
+            top: 10px;
+            left: 10px;
+            font-size: 1rem;
+            color: white;
             cursor: pointer;
-            text-decoration: none; /* Altı çizili değil */
-            font-weight: normal; /* Yazı kalın değil */
-            background: none; /* Arka plan rengi kaldırıldı */
-            padding: 0; /* Padding kaldırıldı */
+            text-decoration: none;
+            background: none;
+        }
+        .back-button:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 600px) {
+            .header {
+                font-size: 1.5em;
+            }
+            .logo {
+                width: 120px;
+            }
+            .container {
+                width: 95%;
+                padding: 15px;
+            }
         }
     </style>
 </head>
 <body>
-    <a class="menu-link" onclick="goToMenu()">Anamenüye Dön</a>
-    <img class="logo" src="https://i.hizliresim.com/98issid.png" alt="YouTube Kanalı" onclick="window.open('https://www.youtube.com/@GENCKALFA', '_blank')">
-    <h1>URL'yi QR Koda Dönüştür</h1>
-    <input type="text" id="urlInput" placeholder="URL'yi buraya girin">
-    <button id="generateButton">QR Kod Oluştur</button>
-    <a id="downloadLink" class="download-link" style="display: none;">QR kodu indir</a>
-    <div id="qrcode"></div>
+    <a href="index.html" class="back-button">Ana Menüye Dön</a>
+    <img class="logo" src="https://i.hizliresim.com/98issid.png" alt="Genç Kalfa Logo">
+    <div class="header">URL'yi QR Koda Dönüştür</div>
+    <div class="container">
+        <input type="text" id="urlInput" placeholder="URL'yi buraya girin">
+        <button id="generateButton">QR Kod Oluştur</button>
+        <div id="qrcode"></div>
+    </div>
 
     <script>
         document.getElementById('generateButton').addEventListener('click', generateQRCode);
@@ -103,7 +105,6 @@
             const url = document.getElementById('urlInput').value;
             const qrcodeContainer = document.getElementById('qrcode');
             qrcodeContainer.innerHTML = '';
-            const downloadLink = document.getElementById('downloadLink');
             
             if (url.trim() === '') {
                 qrcodeContainer.innerHTML = 'Lütfen geçerli bir URL girin.';
@@ -117,28 +118,12 @@
                     height: 200,
                     colorDark : "#000000",
                     colorLight : "#ffffff",
-                    correctLevel : QRCode.CorrectLevel.H,
-                    render: 'canvas',
-                    useSVG: true
+                    correctLevel : QRCode.CorrectLevel.H
                 });
-
-                const canvas = qrcodeContainer.querySelector('canvas');
-                if (canvas) {
-                    const qrCodeUrl = canvas.toDataURL('image/png');
-                    downloadLink.href = qrCodeUrl;
-                    downloadLink.download = 'qrcode.png';
-                    downloadLink.style.display = 'block';
-                } else {
-                    downloadLink.style.display = 'none';
-                }
             } catch (error) {
                 console.error(error);
                 qrcodeContainer.innerHTML = 'QR kod oluşturulamadı.';
             }
-        }
-
-        function goToMenu() {
-            window.location.href = 'index.html'; // Anamenü sayfasının URL'si
         }
     </script>
 </body>
