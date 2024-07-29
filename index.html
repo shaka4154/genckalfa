@@ -9,19 +9,17 @@
 
         body {
             background-color: white;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            height: 100vh;
             margin: 0;
             font-family: 'Impact', sans-serif;
             color: #1C3A57;
             text-align: center;
-            overflow: hidden;
         }
         .header {
-            margin-top: 20px;
+            margin-top: 10px; /* Yukarı taşıdım */
             text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center; /* Logo ve başlık ortalanır */
         }
         .header img {
             width: 200px; /* Logonun boyutu */
@@ -41,27 +39,21 @@
         .container {
             width: 90%;
             max-width: 1200px; /* Butonlar için genişlik arttırıldı */
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
+            margin: 20px auto; /* Ortalar ve yukarı taşır */
             padding: 20px; /* Padding değerini arttırdım */
             box-sizing: border-box;
             border-radius: 10px;
             background-color: rgba(255, 255, 255, 0.9);
-            flex-grow: 1;
-            margin-top: 20px;
         }
         .sub-header {
             font-size: 2em;
-            margin-bottom: 20px; /* Alt başlık ve düğmeler arasındaki boşluk */
+            margin-bottom: 10px; /* Yukarı taşıdım */
         }
         .buttons {
             display: flex;
             flex-wrap: wrap; /* Butonları iki satıra yayar */
             justify-content: center; /* Butonları ortalar */
             gap: 1em; /* Butonlar arasındaki boşluk */
-            overflow-x: auto; /* Butonlar sığmadığında yatay kaydırma sağlar */
         }
         .button {
             background-color: #1C3A57;
@@ -76,8 +68,8 @@
             flex-direction: column;
             align-items: center;
             text-decoration: none; /* Alt çizgi kaldırılır */
-            width: 200px; /* Buton genişliği */
-            height: 200px; /* Buton yüksekliği */
+            width: 180px; /* Buton genişliği */
+            height: 180px; /* Buton yüksekliği */
         }
         .button:hover {
             background-color: #285480;
