@@ -48,14 +48,20 @@
             border-radius: 5px;
             border: 1px solid #ccc;
         }
-        button {
-            background-color: #007bff;
+        button, .download-button {
+            background-color: #1C3A57;
             color: white;
             cursor: pointer;
             border: none;
+            text-decoration: none; /* Alt çizgi kaldırılır */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.3s, transform 0.3s;
         }
-        button:hover {
-            background-color: #0056b3;
+        button:hover, .download-button:hover {
+            background-color: #285480;
+            transform: scale(1.05);
         }
         #qrcode {
             margin-top: 20px;
@@ -66,11 +72,11 @@
             margin-top: 10px;
             padding: 15px;
             font-size: 1.2em;
-            text-decoration: none;
+            text-decoration: none; /* Alt çizgi kaldırılır */
             display: none;
             border-radius: 5px;
             cursor: pointer;
-            transition: background-color 0.3s;
+            transition: background-color 0.3s, transform 0.3s;
         }
         .download-button:hover {
             background-color: #218838;
@@ -94,7 +100,7 @@
             left: 10px;
             font-size: 1.2em;
             color: #1C3A57;
-            text-decoration: none;
+            text-decoration: none; /* Alt çizgi kaldırılır */
             background: none;
             padding: 0.5em 1em;
             border: none;
