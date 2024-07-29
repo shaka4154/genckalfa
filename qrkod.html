@@ -152,7 +152,7 @@
             downloadButton.style.display = 'none'; // İndirme butonunu gizle
             const notification = document.getElementById('notification');
             notification.style.display = 'none'; // Başlangıçta mesajı gizle
-            
+
             if (url.trim() === '') {
                 qrcodeContainer.innerHTML = 'Lütfen geçerli bir URL girin.';
                 return;
@@ -170,9 +170,10 @@
 
                 // QR kodu PNG olarak indirilebilir hale getir
                 setTimeout(() => {
-                    const img = qrcodeContainer.querySelector('img');
-                    if (img) {
-                        downloadButton.href = img.src;
+                    const canvas = qrcodeContainer.querySelector('canvas');
+                    if (canvas) {
+                        const imgData = canvas.toDataURL("image/png");
+                        downloadButton.href = imgData;
                         downloadButton.style.display = 'inline-block';
                     }
                 }, 100);
