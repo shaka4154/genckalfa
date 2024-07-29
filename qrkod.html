@@ -8,10 +8,7 @@
     <style>
         body {
             font-family: 'Impact', sans-serif;
-            background-image: url('https://i.hizliresim.com/ldl3yeu.png');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
+            background-color: white; /* Arka plan rengini beyaz yapar */
             margin: 0;
             padding: 0;
             display: flex;
@@ -19,8 +16,9 @@
             align-items: center;
             justify-content: center;
             height: 100vh;
-            color: white;
+            color: #1C3A57; /* Yazı rengini ayarlar */
             text-align: center;
+            overflow: hidden; /* Sayfanın kaydırılmasını engeller */
         }
         .logo {
             width: 150px;
@@ -31,6 +29,8 @@
         .header {
             font-size: 2em;
             margin-bottom: 0.5em;
+            color: #1C3A57;
+            text-transform: uppercase;
         }
         .container {
             width: 90%;
@@ -60,18 +60,48 @@
         #qrcode {
             margin-top: 20px;
         }
+        .download-button {
+            background-color: #28a745;
+            color: white;
+            margin-top: 10px;
+            padding: 15px;
+            font-size: 1.2em;
+            text-decoration: none;
+            display: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .download-button:hover {
+            background-color: #218838;
+        }
+        .notification {
+            position: fixed;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #007bff;
+            color: white;
+            padding: 1em;
+            font-size: 1.2em;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            display: none;
+        }
         .back-button {
             position: absolute;
             top: 10px;
             left: 10px;
-            font-size: 1rem;
-            color: white;
-            cursor: pointer;
+            font-size: 1.2em;
+            color: #1C3A57;
             text-decoration: none;
             background: none;
+            padding: 0.5em 1em;
+            border: none;
+            cursor: pointer;
         }
         .back-button:hover {
-            text-decoration: underline;
+            color: #007bff;
         }
 
         @media (max-width: 600px) {
@@ -85,6 +115,10 @@
                 width: 95%;
                 padding: 15px;
             }
+            .download-button {
+                padding: 10px;
+                font-size: 1em;
+            }
         }
     </style>
 </head>
@@ -96,15 +130,22 @@
         <input type="text" id="urlInput" placeholder="URL'yi buraya girin">
         <button id="generateButton">QR Kod Oluştur</button>
         <div id="qrcode"></div>
+        <a id="downloadButton" class="download-button" download="qrcode.png">İndir QR Kod</a>
+        <div id="notification" class="notification">İndirme İşlemi Başladı...</div>
     </div>
 
     <script>
         document.getElementById('generateButton').addEventListener('click', generateQRCode);
+        document.getElementById('downloadButton').addEventListener('click', showNotification);
 
         function generateQRCode() {
             const url = document.getElementById('urlInput').value;
             const qrcodeContainer = document.getElementById('qrcode');
+            const downloadButton = document.getElementById('downloadButton');
             qrcodeContainer.innerHTML = '';
+            downloadButton.style.display = 'none'; // İndirme butonunu gizle
+            const notification = document.getElementById('notification');
+            notification.style.display = 'none'; // Başlangıçta mesajı gizle
             
             if (url.trim() === '') {
                 qrcodeContainer.innerHTML = 'Lütfen geçerli bir URL girin.';
@@ -112,7 +153,7 @@
             }
 
             try {
-                new QRCode(qrcodeContainer, {
+                const qrcode = new QRCode(qrcodeContainer, {
                     text: url,
                     width: 200,
                     height: 200,
@@ -120,10 +161,28 @@
                     colorLight : "#ffffff",
                     correctLevel : QRCode.CorrectLevel.H
                 });
+
+                // QR kodu PNG olarak indirilebilir hale getir
+                setTimeout(() => {
+                    const img = qrcodeContainer.querySelector('img');
+                    if (img) {
+                        downloadButton.href = img.src;
+                        downloadButton.style.display = 'inline-block';
+                    }
+                }, 100);
+
             } catch (error) {
                 console.error(error);
                 qrcodeContainer.innerHTML = 'QR kod oluşturulamadı.';
             }
+        }
+
+        function showNotification() {
+            const notification = document.getElementById('notification');
+            notification.style.display = 'block';
+            setTimeout(() => {
+                notification.style.display = 'none';
+            }, 3000); // Mesajı 3 saniye göster
         }
     </script>
 </body>
