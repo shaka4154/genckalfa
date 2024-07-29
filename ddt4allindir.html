@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
@@ -8,17 +8,13 @@
         @import url('https://fonts.googleapis.com/css2?family=Impact&display=swap');
 
         body {
-            background-image: url('https://i.hizliresim.com/ldl3yeu.png');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
+            background-color: white;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
             margin: 0;
             font-family: 'Impact', sans-serif;
-            color: white;
+            color: #1C3A57;
             text-align: center;
         }
         .back {
@@ -26,22 +22,23 @@
             top: 10px;
             left: 10px;
             font-size: 1.2em;
-            color: white;
+            color: #1C3A57;
             text-decoration: none;
         }
         .logo {
-            width: 200px;
-            height: 200px;
-            margin-bottom: 1em;
+            width: 250px;
+            height: 250px;
             cursor: pointer;
         }
         .header {
             font-size: 3em;
             margin-bottom: 0.5em;
+            text-transform: uppercase;
         }
         .sub-header {
             font-size: 2em;
             margin-bottom: 1em;
+            text-transform: uppercase;
         }
         .container {
             width: 90%;
@@ -50,7 +47,6 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            backdrop-filter: blur(5px);
             padding: 20px;
             box-sizing: border-box;
         }
@@ -82,6 +78,33 @@
             height: 100px;
             margin-bottom: 0.5em;
         }
+        .bit-link {
+            margin-top: 1em;
+            color: #1C3A57;
+            text-decoration: none;
+            font-size: 1.2em;
+        }
+        .bit-link:hover {
+            text-decoration: underline;
+        }
+        .old-version {
+            margin-top: 2em;
+            font-size: 1.2em;
+            text-transform: uppercase;
+        }
+        .notification {
+            position: fixed;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #007bff;
+            color: white;
+            padding: 1em;
+            font-size: 1.2em;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            display: none;
+        }
 
         @media (max-width: 600px) {
             .header {
@@ -102,19 +125,34 @@
     </style>
 </head>
 <body>
+    <div class="notification" id="notification">İndirme işlemi başladı!</div>
     <a href="index.html" class="back">Anamenüye Dön</a>
     <div class="container">
         <a href="https://www.youtube.com/@GENCKALFA?sub_confirmation=1" target="_blank">
             <img class="logo" src="https://i.hizliresim.com/98issid.png" alt="Genç Kalfa Logo">
         </a>
-        <div class="header">DDT4ALL Nasıl İndirilir?</div>
-        <div class="sub-header">DDT4ALL'u aşağıdaki bağlantıdan indirebilirsiniz:</div>
+        <div class="header">GENÇ KALFA</div>
+        <div class="header">DDT4ALL NASIL İNDİRİLİR?</div>
+        <div class="sub-header">DDT4ALL'U AŞAĞIDAKİ BAĞLANTI'DAN İNDİREBİLİRSİNİZ:</div>
         <div class="buttons">
-            <a href="https://github.com/cedricp/ddt4all/releases" class="button">
+            <a href="https://github.com/cedricp/ddt4all/releases/download/v3.0.1/DTT4ALL-Windows-Installer-v3.0.1_Stable-x64.exe" class="button" onclick="showNotification()">
                 <img src="https://i.hizliresim.com/fed3r2n.png" alt="DDT4ALL">
                 DDT4ALL
             </a>
         </div>
+        <a href="https://github.com/cedricp/ddt4all/releases/download/v3.0.1/DTT4ALL-Windows-Installer-v3.0.1_Stable-x86-vcredist.exe" class="bit-link" onclick="showNotification()">32 BIT İÇİN İNDİR</a>
+        <div class="old-version">
+            Eski Versiyon İndir: <a href="https://www.dropbox.com/scl/fi/ith948pzxsod4qaivefe9/ddt4all.exe?rlkey=smly94yx3uoibhu5okjxcw9w8&st=sb5n6zy3&dl=1" class="bit-link" onclick="showNotification()">DDT4ALL ESKİ</a>
+        </div>
     </div>
+    <script>
+        function showNotification() {
+            var notification = document.getElementById('notification');
+            notification.style.display = 'block';
+            setTimeout(function() {
+                notification.style.display = 'none';
+            }, 3000);
+        }
+    </script>
 </body>
 </html>
