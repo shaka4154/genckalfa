@@ -45,20 +45,20 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: 10px; /* Padding değerini küçülttüm */
+            padding: 20px; /* Padding değerini arttırdım */
             box-sizing: border-box;
-            border: none; /* Border'ı kaldırdım */
             border-radius: 10px;
             background-color: rgba(255, 255, 255, 0.9);
             flex-grow: 1;
+            margin-top: 20px;
         }
         .sub-header {
             font-size: 2em;
-            margin-top: 10px;
+            margin-bottom: 20px; /* Alt başlık ve düğmeler arasındaki boşluk */
         }
         .buttons {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /* Düğmeleri esnek grid düzenine getirir */
             gap: 1em;
             margin-top: 1em;
         }
@@ -68,15 +68,13 @@
             padding: 1em;
             text-align: center;
             color: white;
-            font-size: 1.2em;
+            font-size: 1em;
             cursor: pointer;
             transition: background-color 0.3s;
             display: flex;
             flex-direction: column;
             align-items: center;
-            width: 120px;
-            height: 120px;
-            text-decoration: none;
+            text-decoration: none; /* Alt çizgi kaldırılır */
         }
         .button:hover {
             background-color: #285480;
@@ -107,7 +105,7 @@
                 height: 50px;
             }
             .container {
-                padding: 5px; /* Mobil için padding'i daha da küçülttüm */
+                padding: 10px; /* Mobil için padding'i arttırdım */
             }
         }
     </style>
