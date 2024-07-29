@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
@@ -8,26 +8,32 @@
         @import url('https://fonts.googleapis.com/css2?family=Impact&display=swap');
 
         body {
-            background-image: url('https://i.hizliresim.com/ldl3yeu.png');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
+            background-color: white; /* Arka plan rengini beyaz yapar */
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
             margin: 0;
             font-family: 'Impact', sans-serif;
-            color: white;
+            color: #1C3A57;
             text-align: center;
+            overflow: hidden; /* Sayfanın kaydırılmasını engeller */
         }
         .back {
             position: absolute;
             top: 10px;
             left: 10px;
             font-size: 1.2em;
-            color: white;
+            color: #1C3A57;
             text-decoration: none;
+            background: none;
+            padding: 0.5em 1em;
+            border: none;
+            box-shadow: none;
+            transition: color 0.3s;
+        }
+        .back:hover {
+            color: #007bff;
         }
         .logo {
             width: 200px;
@@ -38,10 +44,14 @@
         .header {
             font-size: 3em;
             margin-bottom: 0.5em;
+            color: #1C3A57;
+            text-transform: uppercase;
         }
         .sub-header {
             font-size: 2em;
             margin-bottom: 1em;
+            color: #1C3A57;
+            text-transform: uppercase;
         }
         .container {
             width: 90%;
@@ -50,7 +60,6 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            backdrop-filter: blur(5px);
             padding: 20px;
             box-sizing: border-box;
         }
@@ -82,6 +91,19 @@
             height: 100px;
             margin-bottom: 0.5em;
         }
+        .notification {
+            position: fixed;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #007bff;
+            color: white;
+            padding: 1em;
+            font-size: 1.2em;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            display: none;
+        }
 
         @media (max-width: 600px) {
             .header {
@@ -110,11 +132,22 @@
         <div class="header">Rufus Nasıl İndirilir?</div>
         <div class="sub-header">Rufus'u aşağıdaki bağlantıdan indirebilirsiniz:</div>
         <div class="buttons">
-            <a href="https://github.com/pbatard/rufus/releases/download/v4.5/rufus-4.5.exe" class="button">
+            <a href="https://github.com/pbatard/rufus/releases/download/v4.5/rufus-4.5.exe" class="button" onclick="showNotification()">
                 <img src="https://upload.wikimedia.org/wikipedia/commons/d/de/Rufus-logo.png" alt="Rufus">
                 RUFUS
             </a>
         </div>
+        <div id="notification" class="notification">İndirme işlemi başladı...</div>
     </div>
+
+    <script>
+        function showNotification() {
+            const notification = document.getElementById('notification');
+            notification.style.display = 'block';
+            setTimeout(() => {
+                notification.style.display = 'none';
+            }, 3000);
+        }
+    </script>
 </body>
 </html>
