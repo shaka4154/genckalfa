@@ -57,10 +57,10 @@
             margin-bottom: 20px; /* Alt başlık ve düğmeler arasındaki boşluk */
         }
         .buttons {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /* Düğmeleri esnek grid düzenine getirir */
-            gap: 1em;
-            margin-top: 1em;
+            display: flex;
+            flex-wrap: wrap; /* Butonları sarmaya izin verir */
+            justify-content: center; /* Butonları ortalar */
+            gap: 1em; /* Butonlar arasındaki boşluk */
         }
         .button {
             background-color: #1C3A57;
