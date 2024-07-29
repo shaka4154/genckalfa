@@ -20,7 +20,7 @@
             overflow: hidden;
         }
         .header {
-            margin-top: 20px;
+            margin-top: 10px; /* Logodan sonra biraz yukarıda */
             text-align: center;
         }
         .header img {
@@ -45,46 +45,52 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: 20px; /* Padding değerini arttırdım */
+            padding: 10px; /* Padding değerini azalttım */
             box-sizing: border-box;
             border-radius: 10px;
             background-color: rgba(255, 255, 255, 0.9);
             flex-grow: 1;
-            margin-top: 20px;
+            margin-top: 10px; /* Konteyneri biraz yukarıya aldım */
         }
         .sub-header {
             font-size: 2em;
-            margin-bottom: 20px; /* Alt başlık ve düğmeler arasındaki boşluk */
+            margin-bottom: 10px; /* Alt başlık ve düğmeler arasındaki boşluğu azalttım */
         }
         .buttons {
-            display: flex;
-            flex-wrap: nowrap; /* Butonları tek satırda tutar */
-            justify-content: center; /* Butonları ortalar */
-            gap: 1em; /* Butonlar arasındaki boşluk */
-            overflow-x: auto; /* Butonlar sığmadığında yatay kaydırma sağlar */
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1em;
+            width: 100%;
+            max-width: 800px; /* Butonlar için genişlik sınırı */
+            margin: 0 auto;
         }
         .button {
             background-color: #1C3A57;
             border: none;
-            padding: 1em;
+            padding: 0.8em; /* Buton boyutunu küçülttüm */
             text-align: center;
             color: white;
-            font-size: 1em;
+            font-size: 0.9em; /* Buton yazı boyutunu küçülttüm */
             cursor: pointer;
             transition: background-color 0.3s;
             display: flex;
             flex-direction: column;
             align-items: center;
             text-decoration: none; /* Alt çizgi kaldırılır */
-            width: 200px; /* Buton genişliği */
+            box-sizing: border-box; /* Padding'in genişliği etkileyebilmesi için */
         }
         .button:hover {
             background-color: #285480;
         }
         .button img {
-            width: 60px;
-            height: 60px;
+            width: 50px; /* Buton içindeki resimlerin boyutu */
+            height: 50px; /* Buton içindeki resimlerin boyutu */
             margin-bottom: 0.5em;
+        }
+        .single-button {
+            grid-column: 1 / -1; /* Tek butonun tüm sütunları kaplamasını sağlar */
+            display: flex;
+            justify-content: center;
         }
         @media (max-width: 600px) {
             .header img {
@@ -98,13 +104,13 @@
                 font-size: 1.5em;
             }
             .button {
-                width: 150px; /* Mobil için buton genişliği küçültüldü */
-                height: 150px; /* Mobil için buton yüksekliği arttırıldı */
+                width: 100%; /* Mobil için buton genişliği */
+                height: 120px; /* Mobil için buton yüksekliği */
                 padding: 0.5em;
             }
             .button img {
-                width: 50px;
-                height: 50px;
+                width: 40px;
+                height: 40px;
             }
             .container {
                 padding: 10px; /* Mobil için padding'i arttırdım */
@@ -140,6 +146,10 @@
             <a href="qrkod.html" class="button">
                 <img src="https://i.hizliresim.com/qom43kn.jpg" alt="QR Kod Oluştur">
                 QR KOD OLUŞTUR
+            </a>
+            <a href="tarama.html" class="button single-button">
+                <img src="https://i.hizliresim.com/itvxrex.jpg" alt="QR Kod Tarama">
+                QR KOD TARAMA
             </a>
         </div>
     </div>
