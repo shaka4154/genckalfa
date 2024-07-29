@@ -40,7 +40,7 @@
         }
         .container {
             width: 90%;
-            max-width: 700px;
+            max-width: 1200px; /* Butonlar için genişlik arttırıldı */
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -58,9 +58,10 @@
         }
         .buttons {
             display: flex;
-            flex-wrap: wrap; /* Butonları sarmaya izin verir */
+            flex-wrap: nowrap; /* Butonları tek satırda tutar */
             justify-content: center; /* Butonları ortalar */
             gap: 1em; /* Butonlar arasındaki boşluk */
+            overflow-x: auto; /* Butonlar sığmadığında yatay kaydırma sağlar */
         }
         .button {
             background-color: #1C3A57;
@@ -75,6 +76,7 @@
             flex-direction: column;
             align-items: center;
             text-decoration: none; /* Alt çizgi kaldırılır */
+            width: 200px; /* Buton genişliği */
         }
         .button:hover {
             background-color: #285480;
@@ -96,8 +98,8 @@
                 font-size: 1.5em;
             }
             .button {
-                width: 100px;
-                height: 100px;
+                width: 150px; /* Mobil için buton genişliği küçültüldü */
+                height: 150px; /* Mobil için buton yüksekliği arttırıldı */
                 padding: 0.5em;
             }
             .button img {
