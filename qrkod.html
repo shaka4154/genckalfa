@@ -6,6 +6,8 @@
     <title>URL'yi QR Koda Dönüştür</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Archivo+Black&display=swap');
+        
         body {
             font-family: 'Impact', sans-serif;
             background-color: white; /* Arka plan rengini beyaz yapar */
@@ -14,32 +16,36 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
-            height: 100vh;
+            justify-content: flex-start;
+            min-height: 100vh;
             color: #1C3A57; /* Yazı rengini ayarlar */
             text-align: center;
-            overflow: hidden; /* Sayfanın kaydırılmasını engeller */
+            overflow-y: auto; /* Sayfanın kaydırılmasını sağlar */
         }
+
         .logo {
             width: 150px;
             height: auto;
-            margin-bottom: 1em;
+            margin: 20px 0;
             cursor: pointer;
         }
+
         .header {
             font-size: 2em;
             margin-bottom: 0.5em;
             color: #1C3A57;
             text-transform: uppercase;
         }
+
         .container {
             width: 90%;
             max-width: 500px;
-            background: rgba(0, 0, 0, 0.5);
+            background: rgba(0, 0, 0, 0.1);
             padding: 20px;
             border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
+
         input, button {
             width: 100%;
             padding: 10px;
@@ -48,6 +54,7 @@
             border-radius: 5px;
             border: 1px solid #ccc;
         }
+
         button, .download-button {
             background-color: #1C3A57;
             color: white;
@@ -59,13 +66,16 @@
             justify-content: center;
             transition: background-color 0.3s, transform 0.3s;
         }
+
         button:hover, .download-button:hover {
             background-color: #285480;
             transform: scale(1.05);
         }
+
         #qrcode {
             margin-top: 20px;
         }
+
         .download-button {
             background-color: #28a745;
             color: white;
@@ -78,9 +88,11 @@
             cursor: pointer;
             transition: background-color 0.3s, transform 0.3s;
         }
+
         .download-button:hover {
             background-color: #218838;
         }
+
         .notification {
             position: fixed;
             top: 0;
@@ -94,10 +106,12 @@
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
             display: none;
         }
+
         .back-button {
             position: absolute;
             top: 10px;
             left: 10px;
+            font-family: 'Archivo Black', sans-serif;
             font-size: 1.2em;
             color: #1C3A57;
             text-decoration: none; /* Alt çizgi kaldırılır */
@@ -106,6 +120,7 @@
             border: none;
             cursor: pointer;
         }
+
         .back-button:hover {
             color: #007bff;
         }
@@ -114,13 +129,16 @@
             .header {
                 font-size: 1.5em;
             }
+
             .logo {
                 width: 120px;
             }
+
             .container {
                 width: 95%;
                 padding: 15px;
             }
+
             .download-button {
                 padding: 10px;
                 font-size: 1em;
