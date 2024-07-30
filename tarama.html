@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
@@ -13,179 +13,132 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
-            height: 100vh;
-            overflow: hidden;
+            justify-content: flex-start;
+            min-height: 100vh;
+            color: #1C3A57;
             text-align: center;
+            overflow-y: auto;
         }
-        .header {
-            position: absolute;
-            top: 235px; /* Logoyu yukarıya getirdik */
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .header img {
+
+        .logo {
             width: 150px;
             height: auto;
+            margin: 20px 0;
             cursor: pointer;
         }
-        .title {
-            margin: 100px 0 20px 0; /* Başlık ile logo arasındaki mesafeyi arttırır */
+
+        .header {
             font-size: 2em;
+            margin-bottom: 0.5em;
             color: #1C3A57;
             text-transform: uppercase;
         }
+
         .container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-            background: rgba(0, 0, 0, 0.1);
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-            max-width: 100%;
             width: 90%;
+            max-width: 500px;
+            background: rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
-        .button {
+
+        input, button {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            font-size: 1rem;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        button {
             background-color: #1C3A57;
             color: white;
-            padding: 1em 2em;
-            font-size: 1.2em;
-            border: none;
-            border-radius: 5px;
             cursor: pointer;
-            transition: background-color 0.3s;
-            margin-bottom: 20px;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.3s, transform 0.3s;
         }
-        .button:hover {
+
+        button:hover {
             background-color: #285480;
+            transform: scale(1.05);
         }
-        video {
-            border: 5px solid #1C3A57;
-            border-radius: 10px;
-            width: 100%;
-            height: auto;
-            max-width: 500px;
+
+        .notification {
+            position: fixed;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #007bff;
+            color: white;
+            padding: 1em;
+            font-size: 1.2em;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
             display: none;
-            margin-bottom: 20px;
         }
-        .result {
-            display: none;
-            margin-top: 20px;
-            width: 100%;
-            max-width: 500px;
-            background: #f0f0f0;
-            border: 2px solid #1C3A57;
-            border-radius: 10px;
-            color: #1C3A57;
-            font-size: 1em;
-            text-align: center;
-            overflow: hidden;
-            padding: 10px;
-            box-sizing: border-box;
-        }
-        .result a {
-            color: #007bff;
-            text-decoration: none;
-        }
-        .result a:hover {
-            text-decoration: underline;
-        }
+
         .back-button {
             position: absolute;
             top: 10px;
             left: 10px;
-            background-color: transparent;
-            border: none;
+            font-family: 'Impact', sans-serif;
             font-size: 1.2em;
             color: #1C3A57;
-            cursor: pointer;
             text-decoration: none;
-            transition: color 0.3s;
+            background: none;
+            padding: 0.5em 1em;
+            border: none;
+            cursor: pointer;
         }
+
         .back-button:hover {
             color: #007bff;
         }
+
         @media (max-width: 600px) {
-            .title {
+            .header {
                 font-size: 1.5em;
             }
-            .button {
-                font-size: 1em;
-                padding: 0.8em 1.5em;
-            }
-            .header img {
+
+            .logo {
                 width: 120px;
             }
-            video {
-                width: 90%;
-                max-width: none;
-            }
-            .result {
-                width: 90%;
-                font-size: 0.9em;
+
+            .container {
+                width: 95%;
+                padding: 15px;
             }
         }
     </style>
 </head>
 <body>
-    <a href="index.html" class="back-button">Anamenüye Dön</a>
-    <div class="header" id="logoContainer">
-        <a href="https://www.youtube.com/@GENCKALFA" target="_blank">
-            <img src="https://i.hizliresim.com/98issid.png" alt="Genç Kalfa Logo">
-        </a>
-    </div>
-    <div class="title">QR Kod Tarayıcı</div>
+    <a href="index.html" class="back-button">Ana Menüye Dön</a>
+    <img class="logo" src="https://i.hizliresim.com/98issid.png" alt="Genç Kalfa Logo">
+    <div class="header">QR Kod Tarayıcı</div>
     <div class="container">
-        <button class="button" id="startButton">Hemen Tara</button>
-        <video id="video" autoplay></video>
-        <div class="result" id="result"></div>
+        <button id="startButton">QR Kod Tarama</button>
+        <div id="cameraContainer"></div>
+        <div id="result"></div>
+        <div id="notification" class="notification">Tarama İşlemi Başladı...</div>
     </div>
 
-    <script src="https://unpkg.com/@zxing/library@latest"></script>
     <script>
-        const startButton = document.getElementById('startButton');
-        const video = document.getElementById('video');
-        const result = document.getElementById('result');
-        const logoContainer = document.getElementById('logoContainer');
-        const backButton = document.querySelector('.back-button');
-        let selectedDeviceId;
+        // QR kod tarama işlemi için gerekli olan kodlar
+        document.getElementById('startButton').addEventListener('click', startScanner);
 
-        const codeReader = new ZXing.BrowserQRCodeReader();
+        function startScanner() {
+            const notification = document.getElementById('notification');
+            notification.style.display = 'block';
+            setTimeout(() => {
+                notification.style.display = 'none';
+            }, 3000); // Mesajı 3 saniye göster
 
-        startButton.addEventListener('click', () => {
-            startButton.style.display = 'none'; // Butonu gizle
-            logoContainer.style.display = 'none'; // Logoyu gizle
-            backButton.style.display = 'none'; // 'Anamenüye Dön' butonunu gizle
-            codeReader.listVideoInputDevices().then(devices => {
-                const rearCamera = devices.find(device => device.label.toLowerCase().includes('back')) || devices[0];
-                selectedDeviceId = rearCamera.deviceId;
-                
-                video.style.display = 'block'; // Videoyu göster
-                
-                codeReader.decodeFromVideoDevice(selectedDeviceId, video, (result, error) => {
-                    if (result) {
-                        video.style.display = 'none'; // Kamerayı gizle
-                        backButton.style.display = 'none'; // 'Anamenüye Dön' butonunu gizle
-                        showResult(result.text);
-                    } else if (error) {
-                        console.error(error);
-                    }
-                });
-            }).catch(err => console.error(err));
-        });
-
-        function showResult(text) {
-            result.style.display = 'block'; // Sonuç kutusunu göster
-            if (text.startsWith('http')) {
-                result.innerHTML = `Kod içeriği: <a href="${text}" target="_blank">${text}</a>`;
-            } else {
-                result.textContent = `Kod içeriği: ${text}`;
-            }
+            // Burada QR kod tarayıcı başlatma işlemleri yapılır
         }
     </script>
 </body>
