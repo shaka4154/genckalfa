@@ -3,142 +3,212 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Genç Kalfa</title>
+    <title>URL'yi QR Koda Dönüştür</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Impact&display=swap');
-
+        @import url('https://fonts.googleapis.com/css2?family=Archivo+Black&display=swap');
+        
         body {
-            background-color: white;
-            margin: 0;
             font-family: 'Impact', sans-serif;
-            color: #1C3A57;
-            text-align: center;
-        }
-        .header {
-            margin-top: 10px; /* Yukarı taşıdım */
-            text-align: center;
-            display: flex;
-            flex-direction: column;
-            align-items: center; /* Logo ve başlık ortalanır */
-        }
-        .header img {
-            width: 200px; /* Logonun boyutu */
-            height: 200px; /* Logonun boyutu */
-            display: block;
-            margin-bottom: 10px; /* Logo ve başlık arasındaki boşluk */
-        }
-        .title {
-            font-size: 3em; /* Başlık boyutu */
-            font-weight: bold;
-            color: #1C3A57;
-            text-transform: uppercase;
-            display: flex;
-            justify-content: center;
-            gap: 10px; /* Harfler arasındaki boşluk */
-        }
-        .container {
-            width: 90%;
-            max-width: 1200px; /* Butonlar için genişlik arttırıldı */
-            margin: 20px auto; /* Ortalar ve yukarı taşır */
-            padding: 20px; /* Padding değerini arttırdım */
-            box-sizing: border-box;
-            border-radius: 10px;
-            background-color: rgba(255, 255, 255, 0.9);
-        }
-        .sub-header {
-            font-size: 2em;
-            margin-bottom: 10px; /* Yukarı taşıdım */
-        }
-        .buttons {
-            display: flex;
-            flex-wrap: wrap; /* Butonları iki satıra yayar */
-            justify-content: center; /* Butonları ortalar */
-            gap: 1em; /* Butonlar arasındaki boşluk */
-        }
-        .button {
-            background-color: #1C3A57;
-            border: none;
-            padding: 1em;
-            text-align: center;
-            color: white;
-            font-size: 1em;
-            cursor: pointer;
-            transition: background-color 0.3s;
+            background-color: white; /* Arka plan rengini beyaz yapar */
+            margin: 0;
+            padding: 0;
             display: flex;
             flex-direction: column;
             align-items: center;
-            text-decoration: none; /* Alt çizgi kaldırılır */
-            width: 180px; /* Buton genişliği */
-            height: 180px; /* Buton yüksekliği */
+            justify-content: flex-start;
+            min-height: 100vh;
+            color: #1C3A57; /* Yazı rengini ayarlar */
+            text-align: center;
+            overflow-y: auto; /* Sayfanın kaydırılmasını sağlar */
         }
-        .button:hover {
-            background-color: #285480;
+
+        .logo {
+            width: 150px;
+            height: auto;
+            margin: 20px 0;
+            cursor: pointer;
         }
-        .button img {
-            width: 60px;
-            height: 60px;
+
+        .header {
+            font-size: 2em;
             margin-bottom: 0.5em;
+            color: #1C3A57;
+            text-transform: uppercase;
         }
+
+        .container {
+            width: 90%;
+            max-width: 500px;
+            background: rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        input, button {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            font-size: 1rem;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        button, .download-button {
+            background-color: #1C3A57;
+            color: white;
+            cursor: pointer;
+            border: none;
+            text-decoration: none; /* Alt çizgi kaldırılır */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        button:hover, .download-button:hover {
+            background-color: #285480;
+            transform: scale(1.05);
+        }
+
+        #qrcode {
+            margin-top: 20px;
+        }
+
+        .download-button {
+            background-color: #28a745;
+            color: white;
+            margin-top: 10px;
+            padding: 15px;
+            font-size: 1.2em;
+            text-decoration: none; /* Alt çizgi kaldırılır */
+            display: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        .download-button:hover {
+            background-color: #218838;
+        }
+
+        .notification {
+            position: fixed;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #007bff;
+            color: white;
+            padding: 1em;
+            font-size: 1.2em;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            display: none;
+        }
+
+        .back-button {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            font-family: 'Archivo Black', sans-serif;
+            font-size: 1.2em;
+            color: #1C3A57;
+            text-decoration: none; /* Alt çizgi kaldırılır */
+            background: none;
+            padding: 0.5em 1em;
+            border: none;
+            cursor: pointer;
+        }
+
+        .back-button:hover {
+            color: #007bff;
+        }
+
         @media (max-width: 600px) {
-            .header img {
-                width: 150px;
-                height: 150px;
-            }
-            .title {
-                font-size: 2em;
-            }
-            .sub-header {
+            .header {
                 font-size: 1.5em;
             }
-            .button {
-                width: 150px; /* Mobil için buton genişliği küçültüldü */
-                height: 150px; /* Mobil için buton yüksekliği arttırıldı */
-                padding: 0.5em;
+
+            .logo {
+                width: 120px;
             }
-            .button img {
-                width: 50px;
-                height: 50px;
-            }
+
             .container {
-                padding: 10px; /* Mobil için padding'i arttırdım */
+                width: 95%;
+                padding: 15px;
+            }
+
+            .download-button {
+                padding: 10px;
+                font-size: 1em;
             }
         }
     </style>
 </head>
 <body>
-    <div class="header">
-        <a href="https://www.youtube.com/@GENCKALFA?sub_confirmation=1" target="_blank">
-            <img src="https://i.hizliresim.com/98issid.png" alt="Genç Kalfa Logo">
-        </a>
-        <div class="title">
-            <span>GENÇ</span>
-            <span>KALFA</span>
-        </div>
-    </div>
+    <a href="index.html" class="back-button">Ana Menüye Dön</a>
+    <img class="logo" src="https://i.hizliresim.com/98issid.png" alt="Genç Kalfa Logo">
+    <div class="header">URL'yi QR Koda Dönüştür</div>
     <div class="container">
-        <div class="sub-header">Hoşgeldin Kardeşim</div>
-        <div class="buttons">
-            <a href="rufusindir.html" class="button">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/d/de/Rufus-logo.png" alt="Rufus">
-                RUFUS
-            </a>
-            <a href="ddt4allindir.html" class="button">
-                <img src="https://i.hizliresim.com/fed3r2n.png" alt="DDT4ALL">
-                DDT4ALL
-            </a>
-            <a href="icecreamscreen.html" class="button">
-                <img src="https://i.hizliresim.com/pwi0vjh.jpeg" alt="Icecream Screen Recorder Pro">
-                ICECREAM SCREEN RECORDER PRO
-            </a>
-            <a href="qrkod.html" class="button">
-                <img src="https://i.hizliresim.com/qom43kn.jpg" alt="QR Kod Oluştur">
-                QR KOD OLUŞTUR
-            </a>
-            <a href="tarama.html" class="button">
-                <img src="https://i.hizliresim.com/itvxrex.jpg" alt="QR Kod Tarama">
-                QR KOD TARAMA
-            </a>
-        </div>
+        <input type="text" id="urlInput" placeholder="URL'yi buraya girin">
+        <button id="generateButton">QR Kod Oluştur</button>
+        <div id="qrcode"></div>
+        <a id="downloadButton" class="download-button" download="qrcode.png">İndir QR Kod</a>
+        <div id="notification" class="notification">İndirme İşlemi Başladı...</div>
     </div>
+
+    <script>
+        document.getElementById('generateButton').addEventListener('click', generateQRCode);
+        document.getElementById('downloadButton').addEventListener('click', showNotification);
+
+        function generateQRCode() {
+            const url = document.getElementById('urlInput').value;
+            const qrcodeContainer = document.getElementById('qrcode');
+            const downloadButton = document.getElementById('downloadButton');
+            qrcodeContainer.innerHTML = '';
+            downloadButton.style.display = 'none'; // İndirme butonunu gizle
+            const notification = document.getElementById('notification');
+            notification.style.display = 'none'; // Başlangıçta mesajı gizle
+
+            if (url.trim() === '') {
+                qrcodeContainer.innerHTML = 'Lütfen geçerli bir URL girin.';
+                return;
+            }
+
+            try {
+                const qrcode = new QRCode(qrcodeContainer, {
+                    text: url,
+                    width: 200,
+                    height: 200,
+                    colorDark : "#000000",
+                    colorLight : "#ffffff",
+                    correctLevel : QRCode.CorrectLevel.H
+                });
+
+                // QR kodu PNG olarak indirilebilir hale getir
+                setTimeout(() => {
+                    const canvas = qrcodeContainer.querySelector('canvas');
+                    if (canvas) {
+                        const imgData = canvas.toDataURL("image/png");
+                        downloadButton.href = imgData;
+                        downloadButton.style.display = 'inline-block';
+                    }
+                }, 100);
+
+            } catch (error) {
+                console.error(error);
+                qrcodeContainer.innerHTML = 'QR kod oluşturulamadı.';
+            }
+        }
+
+        function showNotification() {
+            const notification = document.getElementById('notification');
+            notification.style.display = 'block';
+            setTimeout(() => {
+                notification.style.display = 'none';
+            }, 3000); // Mesajı 3 saniye göster
+        }
+    </script>
 </body>
 </html>
