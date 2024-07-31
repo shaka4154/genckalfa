@@ -1,0 +1,134 @@
+﻿<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tarih Farkı Hesaplama</title>
+    <style>
+        body {
+            background-color: black;
+            color: white;
+            font-family: 'Impact', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+        #logo {
+            margin-bottom: 20px;
+        }
+        #logo img {
+            width: 150px;
+            border-radius: 50%;
+        }
+        .input-group {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 1.2em;
+        }
+        input[type="date"] {
+            padding: 10px;
+            font-size: 1em;
+            border: none;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            width: 200px;
+            cursor: pointer;
+            background-color: white;
+            color: black;
+        }
+        .button {
+            background-color: white;
+            color: black;
+            font-family: 'Impact', sans-serif;
+            padding: 10px 20px;
+            margin: 10px;
+            border: none;
+            cursor: pointer;
+            font-size: 1em;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+        .button:hover {
+            background-color: gray;
+        }
+        #menu {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            color: white;
+            font-family: 'Archivo Black', sans-serif;
+        }
+        #menu a {
+            color: white;
+            text-decoration: none;
+            font-size: 1.2em;
+            transition: color 0.3s ease;
+        }
+        #menu a:hover {
+            color: blue;
+        }
+        #result {
+            margin-top: 20px;
+            font-size: 1.2em;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div id="menu">
+        <a href="index.html">Anamenüye Dön</a>
+    </div>
+    <div id="logo">
+        <a href="https://www.youtube.com/@GENCKALFA">
+            <img src="https://i.hizliresim.com/98issid.png" alt="YouTube Kanalı">
+        </a>
+    </div>
+    <div class="input-group">
+        <label for="date1">Başlangıç Tarihi:</label>
+        <input type="date" id="date1" onclick="this.showPicker()">
+    </div>
+    <div class="input-group">
+        <label for="date2">Bitiş Tarihi:</label>
+        <input type="date" id="date2" onclick="this.showPicker()">
+    </div>
+    <button class="button" onclick="calculateDifference()">Hesapla</button>
+    <div id="result"></div>
+
+    <script>
+        function calculateDifference() {
+            const date1 = new Date(document.getElementById('date1').value);
+            const date2 = new Date(document.getElementById('date2').value);
+            if (isNaN(date1) || isNaN(date2)) {
+                document.getElementById('result').innerText = "Lütfen geçerli tarihler girin.";
+                return;
+            }
+            
+            const diffTime = Math.abs(date2 - date1);
+            const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+            const diffYears = Math.floor(diffDays / 365);
+            const diffMonths = Math.floor((diffDays % 365) / 30);
+            const remainingDays = diffDays - (diffYears * 365) - (diffMonths * 30);
+            
+            let resultText = 'Fark: ';
+            if (diffYears > 0) {
+                resultText += `${diffYears} yıl `;
+            }
+            if (diffMonths > 0) {
+                resultText += `${diffMonths} ay `;
+            }
+            if (remainingDays > 0 || (diffYears === 0 && diffMonths === 0)) {
+                resultText += `${remainingDays} gün`;
+            }
+
+            document.getElementById('result').innerText = resultText;
+        }
+    </script>
+</body>
+</html>
