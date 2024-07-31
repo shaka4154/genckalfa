@@ -1,0 +1,155 @@
+﻿<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tarih Farkı Hesaplama</title>
+    <style>
+        body {
+            background-color: black;
+            color: white;
+            font-family: 'Impact', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+        #logo {
+            margin-bottom: 20px;
+        }
+        #logo img {
+            width: 150px;
+            border-radius: 50%;
+        }
+        .input-group {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 1.2em;
+        }
+        input[type="date"] {
+            padding: 10px;
+            font-size: 1em;
+            border: none;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            width: 200px;
+            cursor: pointer;
+            background-color: white;
+            color: black;
+        }
+        .button {
+            background-color: white;
+            color: black;
+            font-family: 'Impact', sans-serif;
+            padding: 10px 20px;
+            margin: 10px;
+            border: none;
+            cursor: pointer;
+            font-size: 1em;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+        .button:hover {
+            background-color: gray;
+        }
+        #menu {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            color: white;
+            font-family: 'Archivo Black', sans-serif;
+        }
+        #menu a {
+            color: white;
+            text-decoration: none;
+            font-size: 1.2em;
+            transition: color 0.3s ease;
+        }
+        #menu a:hover {
+            color: blue;
+        }
+        #result {
+            margin-top: 20px;
+            font-size: 1.2em;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div id="menu">
+        <a href="index.html">Anamenüye Dön</a>
+    </div>
+    <div id="logo">
+        <a href="https://www.youtube.com/@GENCKALFA">
+            <img src="https://i.hizliresim.com/98issid.png" alt="YouTube Kanalı">
+        </a>
+    </div>
+    <div class="input-group">
+        <label for="date2">Bitiş Tarihi:</label>
+        <input type="date" id="date2" onclick="this.showPicker()">
+    </div>
+    <button class="button" onclick="startTimer()">Hesapla</button>
+    <div id="result"></div>
+
+    <script>
+        let interval;
+
+        function startTimer() {
+            if (interval) {
+                clearInterval(interval); // Önceki intervali temizle
+            }
+
+            const date2 = new Date(document.getElementById('date2').value);
+            const now = new Date(); // Başlangıç tarihi olarak mevcut tarih
+            if (isNaN(date2.getTime())) {
+                document.getElementById('result').innerText = "Lütfen geçerli bir bitiş tarihi girin.";
+                return;
+            }
+
+            function updateDifference() {
+                let diffTime = date2 - now; // Kalan zamanı hesapla
+
+                if (diffTime < 0) {
+                    document.getElementById('result').innerHTML = "<h2>Bitiş tarihi, başlangıç tarihinden önce olamaz.</h2>";
+                    return;
+                }
+
+                let seconds = Math.floor(diffTime / 1000);
+                let minutes = Math.floor(seconds / 60);
+                let hours = Math.floor(minutes / 60);
+                let days = Math.floor(hours / 24);
+                let years = Math.floor(days / 365);
+                let months = Math.floor((days % 365) / 30);
+
+                days = days % 30;
+                hours = hours % 24;
+                minutes = minutes % 60;
+                seconds = seconds % 60;
+
+                let resultHTML = "<h2>Sonuç:</h2>";
+                if (years > 0) resultHTML += `<p>Yıl: ${years}</p>`;
+                if (months > 0) resultHTML += `<p>Ay: ${months}</p>`;
+                if (days > 0) resultHTML += `<p>Gün: ${days}</p>`;
+                if (hours > 0) resultHTML += `<p>Saat: ${hours}</p>`;
+                if (minutes > 0) resultHTML += `<p>Dakika: ${minutes}</p>`;
+                if (seconds >= 0) resultHTML += `<p>Saniye: ${seconds}</p>`;
+
+                document.getElementById('result').innerHTML = resultHTML;
+            }
+
+            // Zamanlayıcıyı başlat ve her saniye güncellenmesini sağla
+            updateDifference(); // İlk hesaplama
+            interval = setInterval(() => {
+                now.setSeconds(now.getSeconds() + 1); // Şu anki zamanı bir saniye ileri al
+                updateDifference(); // Güncellenmiş tarihi kullanarak hesaplama yap
+            }, 1000); // Her saniye güncelle
+        }
+    </script>
+</body>
+</html>
