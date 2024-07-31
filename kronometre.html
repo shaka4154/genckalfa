@@ -1,0 +1,126 @@
+﻿<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kronometre</title>
+    <style>
+        body {
+            background-color: black;
+            color: white;
+            font-family: 'Impact', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+        #logo {
+            margin-bottom: 20px;
+        }
+        #logo img {
+            width: 150px;
+            border-radius: 50%;
+        }
+        #time {
+            font-size: 4em;
+            margin-bottom: 20px;
+        }
+        .button {
+            background-color: white;
+            color: black;
+            font-family: 'Impact', sans-serif;
+            padding: 10px 20px;
+            margin: 10px;
+            border: none;
+            cursor: pointer;
+            font-size: 1em;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+        .button:hover {
+            background-color: gray;
+        }
+        #menu {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            color: white;
+            font-family: 'Archivo Black', sans-serif;
+        }
+        #menu a {
+            color: white;
+            text-decoration: none;
+            font-size: 1.2em;
+            transition: color 0.3s ease;
+        }
+        #menu a:hover {
+            color: blue;
+        }
+    </style>
+</head>
+<body>
+    <div id="menu">
+        <a href="index.html">Anamenüye Dön</a>
+    </div>
+    <div id="logo">
+        <a href="https://www.youtube.com/@GENCKALFA">
+            <img src="https://i.hizliresim.com/98issid.png" alt="YouTube Kanalı">
+        </a>
+    </div>
+    <div id="time">00:00.00</div>
+    <button class="button" onclick="start()">Başlat</button>
+    <button class="button" onclick="stop()">Durdur</button>
+    <button class="button" onclick="reset()">Sıfırla</button>
+
+    <script>
+        let startTime;
+        let updatedTime;
+        let difference;
+        let tInterval;
+        let savedTime;
+        let running = 0;
+
+        function start() {
+            if (!running) {
+                startTime = new Date().getTime();
+                tInterval = setInterval(getShowTime, 1);
+                running = 1;
+            }
+        }
+
+        function stop() {
+            if (running) {
+                clearInterval(tInterval);
+                savedTime = difference;
+                running = 0;
+            }
+        }
+
+        function reset() {
+            clearInterval(tInterval);
+            savedTime = 0;
+            running = 0;
+            difference = 0;
+            document.getElementById('time').innerHTML = '00:00.00';
+        }
+
+        function getShowTime() {
+            updatedTime = new Date().getTime();
+            if (savedTime) {
+                difference = (updatedTime - startTime) + savedTime;
+            } else {
+                difference = updatedTime - startTime;
+            }
+            let minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+            let seconds = Math.floor((difference % (1000 * 60)) / 1000);
+            let milliseconds = Math.floor((difference % 1000) / 10);
+            document.getElementById('time').innerHTML = 
+                (minutes < 10 ? '0' : '') + minutes + ':' + 
+                (seconds < 10 ? '0' : '') + seconds + '.' + 
+                (milliseconds < 10 ? '0' : '') + milliseconds;
+        }
+    </script>
+</body>
+</html>
