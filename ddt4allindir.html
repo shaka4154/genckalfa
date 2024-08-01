@@ -9,14 +9,12 @@
 
         body {
             background-color: white;
-            display: flex;
-            justify-content: center;
-            align-items: center;
             margin: 0;
             font-family: 'Impact', sans-serif;
             color: #1C3A57;
             text-align: center;
-            padding-bottom: 80px; /* Alt kısımdaki videonun görünmesi için yeterli alan bırak */
+            padding-bottom: 200px; /* İçeriğin alt kısmının görünür olması için yeterli alan bırak */
+            overflow-x: hidden; /* Yatay kaydırmayı engelle */
         }
         .back {
             position: absolute;
@@ -45,8 +43,9 @@
             text-transform: uppercase;
         }
         .container {
-            width: 90%;
+            width: 100%;
             max-width: 800px;
+            margin: 0 auto; /* Sayfayı ortalar */
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -56,6 +55,7 @@
         }
         .buttons {
             display: flex;
+            flex-wrap: wrap; /* Butonları sarmalayarak mobil uyumluluğu sağlar */
             justify-content: center;
             gap: 2em;
             margin-top: 2em;
@@ -109,20 +109,6 @@
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
             display: none;
         }
-        .video-sticky {
-            position: sticky;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            background: white;
-            box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.3);
-            z-index: 1000;
-            display: none; /* İlk başta gizle */
-        }
-        .video-sticky iframe {
-            width: 100%;
-            height: 315px;
-        }
 
         @media (max-width: 600px) {
             .header {
@@ -163,20 +149,7 @@
             Eski Versiyon İndir: <a href="https://www.dropbox.com/scl/fi/ith948pzxsod4qaivefe9/ddt4all.exe?rlkey=smly94yx3uoibhu5okjxcw9w8&st=sb5n6zy3&dl=1" class="bit-link" onclick="showNotification()">DDT4ALL ESKİ</a>
         </div>
     </div>
-    <div class="video-sticky" id="video-sticky">
-        <iframe width="560" height="315" src="https://www.youtube.com/embed/Whd3_K6HPpU?si=mlbMNpf0TCW0Tsj0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-    </div>
     <script>
-        window.addEventListener('scroll', function() {
-            var videoSticky = document.getElementById('video-sticky');
-            var scrollPosition = window.scrollY + window.innerHeight;
-            if (scrollPosition >= document.body.scrollHeight) {
-                videoSticky.style.display = 'block';
-            } else {
-                videoSticky.style.display = 'none';
-            }
-        });
-
         function showNotification() {
             var notification = document.getElementById('notification');
             notification.style.display = 'block';
