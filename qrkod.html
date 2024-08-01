@@ -170,6 +170,16 @@
             color: #007bff;
         }
 
+        /* Renk seçici kare */
+        .color-preview {
+            width: 40px;
+            height: 40px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            display: inline-block;
+            vertical-align: middle;
+        }
+
         @media (max-width: 600px) {
             .header {
                 font-size: 1.5em;
@@ -206,11 +216,13 @@
         </div>
         <div class="input-group">
             <label for="colorInput">QR Kod Rengi:</label>
-            <input type="color" id="colorInput" value="#000000">
+            <input type="color" id="colorInput" value="#000000" onchange="updateColorPreview(event)">
+            <div id="colorPreview" class="color-preview" style="background-color: #000000;" onclick="document.getElementById('colorInput').click();"></div>
         </div>
         <div class="input-group">
             <label for="backgroundColorInput">QR Kod Arka Plan Rengi:</label>
-            <input type="color" id="backgroundColorInput" value="#ffffff">
+            <input type="color" id="backgroundColorInput" value="#ffffff" onchange="updateBackgroundColorPreview(event)">
+            <div id="backgroundColorPreview" class="color-preview" style="background-color: #ffffff;" onclick="document.getElementById('backgroundColorInput').click();"></div>
         </div>
         <div class="input-group">
             <label for="logoInput">Logo Yükle:</label>
@@ -218,75 +230,92 @@
         </div>
         <button id="generateButton">QR Kod Oluştur</button>
         <div id="qrcode"></div>
-        <a id="downloadButton" class="download-button" download="qrcode.png">İndir QR Kod</a>
+        <a id="downloadButton" class="download-button" href="" download="qrcode.png">İndir QR Kod</a>
         <div id="notification" class="notification">İndirme İşlemi Başladı...</div>
     </div>
 
     <script>
-        document.getElementById('generateButton').addEventListener('click', generateQRCode);
-        document.getElementById('downloadButton').addEventListener('click', showNotification);
+    document.getElementById('generateButton').addEventListener('click', generateQRCode);
+    document.getElementById('downloadButton').addEventListener('click', showNotification);
 
-        function generateQRCode() {
-            const url = document.getElementById('urlInput').value;
-            const size = parseInt(document.getElementById('sizeInput').value, 10) || 200;
-            const color = document.getElementById('colorInput').value;
-            const backgroundColor = document.getElementById('backgroundColorInput').value;
-            const logoInput = document.getElementById('logoInput').files[0];
-            const qrcodeContainer = document.getElementById('qrcode');
-            const downloadButton = document.getElementById('downloadButton');
-            const notification = document.getElementById('notification');
+    function generateQRCode() {
+        const url = document.getElementById('urlInput').value;
+        const size = parseInt(document.getElementById('sizeInput').value, 10) || 200;
+        const color = document.getElementById('colorInput').value;
+        const backgroundColor = document.getElementById('backgroundColorInput').value;
+        const logoInput = document.getElementById('logoInput').files[0];
+        const qrcodeContainer = document.getElementById('qrcode');
+        const downloadButton = document.getElementById('downloadButton');
+        const notification = document.getElementById('notification');
 
-            qrcodeContainer.innerHTML = '';
-            downloadButton.style.display = 'none';
+        qrcodeContainer.innerHTML = '';
+        downloadButton.style.display = 'none';
+        notification.style.display = 'none';
+
+        const qrcode = new QRCode(qrcodeContainer, {
+            text: url,
+            width: size,
+            height: size,
+            colorDark: color,
+            colorLight: backgroundColor,
+            correctLevel: QRCode.CorrectLevel.H
+        });
+
+        if (logoInput) {
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                const logoDataUrl = event.target.result;
+                const qrCanvas = qrcodeContainer.querySelector('canvas');
+                const context = qrCanvas.getContext('2d');
+                const logoImage = new Image();
+                logoImage.onload = function() {
+                    const logoSize = size * 0.2; // Logo boyutu (QR kod boyutunun %20'si)
+                    const x = (qrCanvas.width - logoSize) / 2;
+                    const y = (qrCanvas.height - logoSize) / 2;
+                    context.drawImage(logoImage, x, y, logoSize, logoSize);
+
+                    qrCanvas.toBlob(function(blob) {
+                        const url = URL.createObjectURL(blob);
+                        downloadButton.href = url;
+                        downloadButton.style.display = 'block';
+                    });
+                };
+                logoImage.src = logoDataUrl;
+            };
+            reader.readAsDataURL(logoInput);
+        } else {
+            const qrCanvas = qrcodeContainer.querySelector('canvas');
+            qrCanvas.toBlob(function(blob) {
+                const url = URL.createObjectURL(blob);
+                downloadButton.href = url;
+                downloadButton.style.display = 'block';
+            });
+        }
+    }
+
+    function showNotification() {
+        const notification = document.getElementById('notification');
+        notification.style.display = 'block';
+        setTimeout(function() {
             notification.style.display = 'none';
+        }, 3000);
+    }
 
-            if (url.trim() === '') {
-                qrcodeContainer.innerHTML = 'Lütfen geçerli bir URL girin.';
-                return;
-            }
+    function updateColorPreview(event) {
+        const color = event.target.value;
+        const colorPreview = document.getElementById('colorPreview');
+        colorPreview.style.backgroundColor = color;
+    }
 
-            try {
-                const qrcode = new QRCode(qrcodeContainer, {
-                    text: url,
-                    width: size,
-                    height: size,
-                    colorDark: color,
-                    colorLight: backgroundColor,
-                    correctLevel: QRCode.CorrectLevel.H
-                });
+    function updateBackgroundColorPreview(event) {
+        const color = event.target.value;
+        const backgroundColorPreview = document.getElementById('backgroundColorPreview');
+        backgroundColorPreview.style.backgroundColor = color;
+    }
 
-                setTimeout(() => {
-                    const canvas = qrcodeContainer.querySelector('canvas');
-                    if (canvas) {
-                        const ctx = canvas.getContext('2d');
-                        if (logoInput) {
-                            const logo = new Image();
-                            logo.src = URL.createObjectURL(logoInput);
-                            logo.onload = () => {
-                                const logoSize = size / 5;
-                                const x = (size - logoSize) / 2;
-                                const y = (size - logoSize) / 2;
-                                ctx.drawImage(logo, x, y, logoSize, logoSize);
-                                downloadButton.style.display = 'inline-block';
-                            };
-                        } else {
-                            downloadButton.style.display = 'inline-block';
-                        }
-                    }
-                }, 100); // QR kod oluşturulması için kısa bir gecikme
-
-            } catch (error) {
-                qrcodeContainer.innerHTML = 'QR Kod oluşturulurken bir hata oluştu.';
-            }
-        }
-
-        function showNotification() {
-            const notification = document.getElementById('notification');
-            notification.style.display = 'block';
-            setTimeout(() => {
-                notification.style.display = 'none';
-            }, 2000);
-        }
+    document.querySelector('.logo').addEventListener('click', function() {
+        window.location.href = 'https://www.youtube.com/@GENCKALFA';
+    });
     </script>
 </body>
-</html>
+</html>    
