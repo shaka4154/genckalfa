@@ -20,7 +20,7 @@
         }
         .header {
             position: absolute;
-            top: 235px; /* Logoyu yukarıya getirdik */
+            top: 10px; /* Logoyu yukarıya taşıdık */
             left: 50%;
             transform: translateX(-50%);
             display: flex;
@@ -110,6 +110,10 @@
         .back-button:hover {
             color: #007bff;
         }
+        .file-input {
+            display: none; /* Dosya seçme alanını gizle */
+            margin-top: 20px;
+        }
         @media (max-width: 600px) {
             .title {
                 font-size: 1.5em;
@@ -144,6 +148,7 @@
         <button class="button" id="startButton">Hemen Tara</button>
         <video id="video" autoplay></video>
         <div class="result" id="result"></div>
+        <input type="file" id="fileInput" class="file-input" accept="image/*">
     </div>
 
     <script src="https://unpkg.com/@zxing/library@latest"></script>
@@ -151,6 +156,7 @@
         const startButton = document.getElementById('startButton');
         const video = document.getElementById('video');
         const result = document.getElementById('result');
+        const fileInput = document.getElementById('fileInput');
         const logoContainer = document.getElementById('logoContainer');
         const backButton = document.querySelector('.back-button');
         let selectedDeviceId;
@@ -160,23 +166,44 @@
         startButton.addEventListener('click', () => {
             startButton.style.display = 'none'; // Butonu gizle
             logoContainer.style.display = 'none'; // Logoyu gizle
-            backButton.style.display = 'none'; // 'Anamenüye Dön' butonunu gizle
+            backButton.style.display = 'block'; // 'Anamenüye Dön' butonunu gizle
+            fileInput.style.display = 'block'; // Dosya seçme alanını göster
             codeReader.listVideoInputDevices().then(devices => {
                 const rearCamera = devices.find(device => device.label.toLowerCase().includes('back')) || devices[0];
                 selectedDeviceId = rearCamera.deviceId;
-                
+
                 video.style.display = 'block'; // Videoyu göster
-                
+
                 codeReader.decodeFromVideoDevice(selectedDeviceId, video, (result, error) => {
                     if (result) {
                         video.style.display = 'none'; // Kamerayı gizle
-                        backButton.style.display = 'none'; // 'Anamenüye Dön' butonunu gizle
+                        backButton.style.display = 'block'; // 'Anamenüye Dön' butonunu gizle
                         showResult(result.text);
                     } else if (error) {
                         console.error(error);
                     }
                 });
             }).catch(err => console.error(err));
+        });
+
+        fileInput.addEventListener('change', () => {
+            const file = fileInput.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const img = new Image();
+                    img.src = e.target.result;
+                    img.onload = function() {
+                        codeReader.decodeFromImage(img).then(result => {
+                            showResult(result.text);
+                        }).catch(err => {
+                            console.error(err);
+                            result.textContent = 'QR Kod taranamadı.';
+                        });
+                    };
+                };
+                reader.readAsDataURL(file);
+            }
         });
 
         function showResult(text) {
@@ -187,6 +214,7 @@
                 result.textContent = `Kod içeriği: ${text}`;
             }
         }
+        
     </script>
 </body>
 </html>
