@@ -103,6 +103,10 @@
                 padding: 10px;
             }
         }
+        .countdown {
+            font-size: 1.5em;
+            margin-top: 20px;
+        }
     </style>
 </head>
 <body>
@@ -151,6 +155,35 @@
                 KAÇ GÜN KALDI
             </a>
         </div>
+        <div class="countdown" id="countdown"></div>
     </div>
+
+    <script>
+        // Okulun açılma tarihi
+        const schoolStartDate = new Date('September 15, 2024 00:00:00').getTime();
+
+        // Sayaç fonksiyonu
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const timeLeft = schoolStartDate - now;
+
+            const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+
+            document.getElementById('countdown').innerHTML = `
+                Okulun açılmasına ${days} gün ${hours} saat ${minutes} dakika ${seconds} saniye kaldı.
+            `;
+
+            if (timeLeft < 0) {
+                clearInterval(interval);
+                document.getElementById('countdown').innerHTML = "Okul Açıldı!";
+            }
+        }
+
+        // Sayacı başlat
+        const interval = setInterval(updateCountdown, 1000);
+    </script>
 </body>
 </html>
