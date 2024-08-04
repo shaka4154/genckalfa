@@ -5,107 +5,138 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Genç Kalfa</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Impact&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
 
         body {
-            background-color: white;
             margin: 0;
-            font-family: 'Impact', sans-serif;
-            color: #1C3A57;
-            text-align: center;
+            font-family: 'Roboto', sans-serif;
+            color: #333;
+            background-color: #f4f4f4;
+            line-height: 1.6;
         }
+
         .header {
-            margin-top: 10px;
+            background-color: #002d72;
+            color: white;
+            padding: 30px;
             text-align: center;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            border-bottom: 4px solid #004d99;
+            position: relative;
         }
+
         .header img {
-            width: 200px;
-            height: 200px;
-            display: block;
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
             margin-bottom: 10px;
+            transition: transform 0.3s;
         }
-        .title {
+
+        .header img:hover {
+            transform: scale(1.1);
+        }
+
+        .header .title {
             font-size: 3em;
-            font-weight: bold;
-            color: #1C3A57;
+            font-weight: 700;
             text-transform: uppercase;
-            display: flex;
-            justify-content: center;
-            gap: 10px;
+            letter-spacing: 2px;
         }
+
         .container {
-            width: 90%;
             max-width: 1200px;
             margin: 20px auto;
             padding: 20px;
-            box-sizing: border-box;
+            background-color: white;
             border-radius: 10px;
-            background-color: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
+
         .sub-header {
             font-size: 2em;
-            margin-bottom: 10px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: #002d72;
         }
+
         .buttons {
-            display: flex;
-            flex-wrap: wrap;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
             justify-content: center;
-            gap: 1em;
         }
+
         .button {
-            background-color: #1C3A57;
-            border: none;
-            padding: 0.5em;
-            text-align: center;
+            background-color: #004d99;
             color: white;
-            font-size: 1em;
-            cursor: pointer;
-            transition: background-color 0.3s;
+            text-align: center;
+            padding: 20px;
+            border-radius: 10px;
+            text-decoration: none;
             display: flex;
             flex-direction: column;
             align-items: center;
-            text-decoration: none;
-            width: 150px; /* Buton genişliği küçültüldü */
-            height: 150px; /* Buton yüksekliği küçültüldü */
+            transition: background-color 0.3s, transform 0.3s;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
         }
-        .button:hover {
-            background-color: #285480;
-        }
+
         .button img {
-            width: 50px;
-            height: 50px;
-            margin-bottom: 0.5em;
+            width: 80px;
+            height: 80px;
+            margin-bottom: 10px;
         }
-        @media (max-width: 600px) {
-            .header img {
-                width: 150px;
-                height: 150px;
-            }
-            .title {
-                font-size: 2em;
+
+        .button:hover {
+            background-color: #003c8f;
+            transform: scale(1.05);
+        }
+
+        .countdown {
+            font-size: 1.5em;
+            font-weight: 700;
+            margin-top: 20px;
+            background-color: #002d72;
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        footer {
+            background-color: #002d72;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            border-top: 4px solid #004d99;
+            position: relative;
+        }
+
+        footer a {
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: 700;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            .header .title {
+                font-size: 2.5em;
             }
             .sub-header {
                 font-size: 1.5em;
             }
             .button {
-                width: 120px;
-                height: 120px;
-                padding: 0.5em;
+                padding: 15px;
+                width: 100%;
+                box-sizing: border-box;
             }
             .button img {
-                width: 40px;
-                height: 40px;
+                width: 60px;
+                height: 60px;
             }
-            .container {
-                padding: 10px;
-            }
-        }
-        .countdown {
-            font-size: 1.5em;
-            margin-top: 20px;
         }
     </style>
 </head>
@@ -114,11 +145,9 @@
         <a href="https://www.youtube.com/@GENCKALFA?sub_confirmation=1" target="_blank">
             <img src="https://i.hizliresim.com/98issid.png" alt="Genç Kalfa Logo">
         </a>
-        <div class="title">
-            <span>GENÇ</span>
-            <span>KALFA</span>
-        </div>
+        <div class="title">Genç Kalfa</div>
     </div>
+
     <div class="container">
         <div class="sub-header">Hoşgeldin Kardeşim</div>
         <div class="buttons">
@@ -157,6 +186,11 @@
         </div>
         <div class="countdown" id="countdown"></div>
     </div>
+
+    <footer>
+        <p>&copy; 2024 Genç Kalfa. Tüm hakları saklıdır.</p>
+        <p><a href="https://www.youtube.com/@GENCKALFA" target="_blank">YouTube Kanalımıza Abone Olun</a></p>
+    </footer>
 
     <script>
         // Okulun açılma tarihi
