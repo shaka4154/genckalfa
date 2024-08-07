@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Genç Kalfa - Radio Code Finder</title>
+    <title>Renault Radyo Kod Bulucu</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
 
@@ -18,15 +18,15 @@
         .header {
             background-color: #002d72;
             color: white;
-            padding: 20px;
+            padding: 30px;
             text-align: center;
             border-bottom: 4px solid #004d99;
             position: relative;
         }
 
         .header img {
-            width: 100px;
-            height: 100px;
+            width: 150px;
+            height: 150px;
             border-radius: 50%;
             margin-bottom: 10px;
             transition: transform 0.3s;
@@ -37,14 +37,14 @@
         }
 
         .header .title {
-            font-size: 2.5em;
+            font-size: 3em;
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 2px;
         }
 
         .container {
-            max-width: 1000px;
+            max-width: 800px;
             margin: 20px auto;
             padding: 20px;
             background-color: white;
@@ -53,61 +53,66 @@
         }
 
         .sub-header {
-            font-size: 1.8em;
+            font-size: 2em;
             font-weight: 700;
             margin-bottom: 20px;
             color: #002d72;
         }
 
-        .form-container {
-            margin-top: 20px;
-        }
-
-        .form-group {
-            margin-bottom: 15px;
-        }
-
-        .form-group label {
+        label {
             display: block;
-            margin-bottom: 5px;
-            font-weight: 700;
-            color: #002d72;
+            margin-bottom: 10px;
+            font-size: 1.2em;
         }
 
-        .form-group input {
+        input[type="text"] {
             width: 100%;
             padding: 10px;
-            border: 2px solid #004d99;
+            margin-bottom: 20px;
+            border: 2px solid #002d72;
             border-radius: 5px;
-            box-sizing: border-box;
+            background-color: white;
+            color: #333;
         }
 
-        .form-group button {
-            width: 100%;
-            padding: 10px;
+        button {
             background-color: #004d99;
             color: white;
+            padding: 10px 20px;
             border: none;
             border-radius: 5px;
-            font-size: 1.2em;
             cursor: pointer;
+            font-size: 1.2em;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        button:hover {
+            background-color: #003c8f;
+            transform: scale(1.05);
+        }
+
+        #result {
+            font-size: 1.2em;
+            margin-top: 20px;
+            font-weight: 700;
+        }
+
+        #return {
+            display: block;
+            margin-top: 20px;
+            font-size: 1.2em;
+            color: white;
+            text-decoration: none;
+            border: 1px solid white;
+            padding: 10px;
+            border-radius: 5px;
+            background-color: #002d72;
+            text-align: center;
             transition: background-color 0.3s;
         }
 
-        .form-group button:hover {
+        #return:hover {
             background-color: #003c8f;
-        }
-
-        .result-container {
-            margin-top: 20px;
-        }
-
-        .result {
-            padding: 15px;
-            border: 2px solid #004d99;
-            border-radius: 5px;
-            background-color: #e0e0e0;
-            font-weight: 700;
         }
 
         footer {
@@ -131,15 +136,14 @@
 
         @media (max-width: 768px) {
             .header .title {
-                font-size: 2em;
+                font-size: 2.5em;
             }
-
             .sub-header {
                 font-size: 1.5em;
             }
-
-            .form-group input, .form-group button {
+            button {
                 font-size: 1em;
+                padding: 10px 15px;
             }
         }
     </style>
@@ -153,19 +157,12 @@
     </div>
 
     <div class="container">
-        <div class="sub-header">Renault Radyo Kodu Bulma</div>
-        <div class="form-container">
-            <div class="form-group">
-                <label for="precode">Precode:</label>
-                <input type="text" id="precode" placeholder="Precode girin">
-            </div>
-            <div class="form-group">
-                <button onclick="findCode()">Kodu Bul</button>
-            </div>
-            <div class="result-container">
-                <div class="result" id="result">Sonuç burada görünecek</div>
-            </div>
-        </div>
+        <div class="sub-header">Renault Radyo Kod Bulucu</div>
+        <label for="precode">Precode giriniz:</label>
+        <input type="text" id="precode">
+        <button onclick="findCode()">Bul</button>
+        <div id="result"></div>
+        <a id="return" href="index.html">Anamenüye Dön</a>
     </div>
 
     <footer>
@@ -174,34 +171,40 @@
     </footer>
 
     <script>
-        async function findCode() {
-            const precode = document.getElementById('precode').value.trim();
-            if (!precode) {
-                document.getElementById('result').innerText = 'Lütfen bir Precode girin.';
-                return;
-            }
+        // Boş bir nesne oluşturuyoruz
+        const codes = {};
 
+        // Veriyi dosyadan okuyup nesneye aktarıyoruz
+        async function loadCodes() {
             try {
-                const response = await fetch('assets/codes.txt');
+                const response = await fetch('assets/codes.txt'); // Dosyanızın yolunu buraya ekleyin
+                if (!response.ok) throw new Error('Network response was not ok.');
                 const data = await response.text();
-                const lines = data.split('\n');
-                let found = false;
+                const lines = data.trim().split('\n');
 
-                for (const line of lines) {
-                    const [codePrecode, codeValue] = line.split('|').map(item => item.trim());
-                    if (codePrecode === precode) {
-                        document.getElementById('result').innerText = `Bulunan Kod: ${codeValue}`;
-                        found = true;
-                        break;
+                lines.forEach(line => {
+                    const [precode, code] = line.split(',');
+                    if (precode && code) {
+                        codes[precode.trim()] = code.trim();
                     }
-                }
-
-                if (!found) {
-                    document.getElementById('result').innerText = 'Kod bulunamadı.';
-                }
+                });
             } catch (error) {
-                console.error('Bir hata oluştu:', error);
-                document.getElementById('result').innerText = 'Veriler yüklenirken bir hata oluştu.';
+                console.error('Veri yüklenirken bir hata oluştu:', error);
+            }
+        }
+
+        // Sayfa yüklendiğinde kodları yüklüyoruz
+        window.onload = loadCodes;
+
+        function findCode() {
+            const precode = document.getElementById("precode").value.toUpperCase();
+            const code = codes[precode];
+            const result = document.getElementById("result");
+
+            if (code) {
+                result.textContent = `Kod: ${code}`;
+            } else {
+                result.textContent = "Precode bulunamadı.";
             }
         }
     </script>
