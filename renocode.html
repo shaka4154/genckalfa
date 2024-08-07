@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Renault Radyo Kod Bulucu</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+        body {
+            margin: 0;
+            font-family: 'Roboto', sans-serif;
+            color: #333;
+            background-color: #f4f4f4;
+            line-height: 1.6;
+        }
+
+        .header {
+            background-color: #002d72;
+            color: white;
+            padding: 30px;
+            text-align: center;
+            border-bottom: 4px solid #004d99;
+            position: relative;
+        }
+
+        .header img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            margin-bottom: 10px;
+            transition: transform 0.3s;
+        }
+
+        .header img:hover {
+            transform: scale(1.1);
+        }
+
+        .header .title {
+            font-size: 3em;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .sub-header {
+            font-size: 2em;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: #002d72;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 2px solid #002d72;
+            border-radius: 5px;
+            background-color: white;
+            color: #333;
+        }
+
+        button {
+            background-color: #004d99;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1.2em;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        button:hover {
+            background-color: #003c8f;
+            transform: scale(1.05);
+        }
+
+        #result {
+            font-size: 1.2em;
+            margin-top: 20px;
+            font-weight: 700;
+        }
+
+        #return {
+            display: block;
+            margin-top: 20px;
+            font-size: 1.2em;
+            color: white;
+            text-decoration: none;
+            border: 1px solid white;
+            padding: 10px;
+            border-radius: 5px;
+            background-color: #002d72;
+            text-align: center;
+            transition: background-color 0.3s;
+        }
+
+        #return:hover {
+            background-color: #003c8f;
+        }
+
+        footer {
+            background-color: #002d72;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            border-top: 4px solid #004d99;
+            position: relative;
+        }
+
+        footer a {
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: 700;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            .header .title {
+                font-size: 2.5em;
+            }
+            .sub-header {
+                font-size: 1.5em;
+            }
+            button {
+                font-size: 1em;
+                padding: 10px 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <a href="https://www.youtube.com/@GENCKALFA?sub_confirmation=1" target="_blank">
+            <img src="https://i.hizliresim.com/98issid.png" alt="Genç Kalfa Logo">
+        </a>
+        <div class="title">Genç Kalfa</div>
+    </div>
+
+    <div class="container">
+        <div class="sub-header">Renault Radyo Kod Bulucu</div>
+        <label for="precode">Precode giriniz:</label>
+        <input type="text" id="precode">
+        <button onclick="findCode()">Bul</button>
+        <div id="result"></div>
+        <a id="return" href="index.html">Anamenüye Dön</a>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Genç Kalfa. Tüm hakları saklıdır.</p>
+        <p><a href="https://www.youtube.com/@GENCKALFA" target="_blank">YouTube Kanalımıza Abone Olun</a></p>
+    </footer>
+
+    <script>
+        // Boş bir nesne oluşturuyoruz
+        const codes = {};
+
+        // Veriyi dosyadan okuyup nesneye aktarıyoruz
+        async function loadCodes() {
+            try {
+                const response = await fetch('assets/codes.txt'); // Dosyanızın yolunu buraya ekleyin
+                if (!response.ok) throw new Error('Network response was not ok.');
+                const data = await response.text();
+                const lines = data.trim().split('\n');
+
+                lines.forEach(line => {
+                    const [precode, code] = line.split(',');
+                    if (precode && code) {
+                        codes[precode.trim()] = code.trim();
+                    }
+                });
+            } catch (error) {
+                console.error('Veri yüklenirken bir hata oluştu:', error);
+            }
+        }
+
+        // Sayfa yüklendiğinde kodları yüklüyoruz
+        window.onload = loadCodes;
+
+        function findCode() {
+            const precode = document.getElementById("precode").value.toUpperCase();
+            const code = codes[precode];
+            const result = document.getElementById("result");
+
+            if (code) {
+                result.textContent = `Kod: ${code}`;
+            } else {
+                result.textContent = "Precode bulunamadı.";
+            }
+        }
+    </script>
+</body>
+</html>
