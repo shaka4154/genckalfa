@@ -13,6 +13,7 @@
             color: #333;
             background-color: #f4f4f4;
             line-height: 1.6;
+            position: relative;
         }
 
         .header {
@@ -66,13 +67,14 @@
         }
 
         input[type="text"] {
-            width: 100%;
+            width: 80%;
             padding: 10px;
             margin-bottom: 20px;
             border: 2px solid #002d72;
             border-radius: 5px;
             background-color: white;
             color: #333;
+            box-sizing: border-box;
         }
 
         button {
@@ -99,7 +101,6 @@
 
         #return {
             display: block;
-            margin-top: 20px;
             font-size: 1.2em;
             color: white;
             text-decoration: none;
@@ -134,6 +135,16 @@
             text-decoration: underline;
         }
 
+        .menu-return {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            color: white;
+            font-size: 1.2em;
+            text-decoration: none;
+            padding: 5px;
+        }
+
         @media (max-width: 768px) {
             .header .title {
                 font-size: 2.5em;
@@ -145,10 +156,15 @@
                 font-size: 1em;
                 padding: 10px 15px;
             }
+            input[type="text"] {
+                width: 100%;
+            }
         }
     </style>
 </head>
 <body>
+    <a class="menu-return" href="index.html">Anamenüye Dön</a>
+
     <div class="header">
         <a href="https://www.youtube.com/@GENCKALFA?sub_confirmation=1" target="_blank">
             <img src="https://i.hizliresim.com/98issid.png" alt="Genç Kalfa Logo">
@@ -162,7 +178,6 @@
         <input type="text" id="precode">
         <button onclick="findCode()">Bul</button>
         <div id="result"></div>
-        <a id="return" href="index.html">Anamenüye Dön</a>
     </div>
 
     <footer>
