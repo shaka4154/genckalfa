@@ -66,10 +66,17 @@
             font-size: 1.2em;
         }
 
-        input[type="text"] {
-            width: 80%;
-            padding: 10px;
+        .input-group {
+            display: flex;
+            gap: 5px;
             margin-bottom: 20px;
+        }
+
+        input[type="text"] {
+            width: 50px;
+            height: 50px;
+            text-align: center;
+            font-size: 1.5em;
             border: 2px solid #002d72;
             border-radius: 5px;
             background-color: white;
@@ -101,20 +108,21 @@
 
         .menu-return {
             position: absolute;
-            top: 10px;
-            left: 10px;
+            top: 0;
+            left: 0;
             color: white;
-            font-size: 1.2em;
+            font-size: 1em;
             text-decoration: none;
-            padding: 5px;
-            background-color: #002d72;
-            border-radius: 5px;
-            border: 1px solid white;
+            padding: 5px 10px;
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+            z-index: 10;
             transition: background-color 0.3s;
         }
 
         .menu-return:hover {
-            background-color: #003c8f;
+            background-color: rgba(0, 0, 0, 0.3);
         }
 
         footer {
@@ -148,7 +156,9 @@
                 padding: 10px 15px;
             }
             input[type="text"] {
-                width: 100%;
+                width: 50px;
+                height: 50px;
+                font-size: 1.5em;
             }
         }
     </style>
@@ -166,7 +176,12 @@
     <div class="container">
         <div class="sub-header">Renault Radyo Kod Bulucu</div>
         <label for="precode">Precode giriniz:</label>
-        <input type="text" id="precode">
+        <div class="input-group">
+            <input type="text" id="precode1" maxlength="1" oninput="moveToNext(this, 'precode2')">
+            <input type="text" id="precode2" maxlength="1" oninput="moveToNext(this, 'precode3')">
+            <input type="text" id="precode3" maxlength="1" oninput="moveToNext(this, 'precode4')">
+            <input type="text" id="precode4" maxlength="1" oninput="moveToNext(this, '')">
+        </div>
         <button onclick="findCode()">Bul</button>
         <div id="result"></div>
     </div>
@@ -203,7 +218,12 @@
         window.onload = loadCodes;
 
         function findCode() {
-            const precode = document.getElementById("precode").value.toUpperCase();
+            const precode = [
+                document.getElementById("precode1").value.toUpperCase(),
+                document.getElementById("precode2").value.toUpperCase(),
+                document.getElementById("precode3").value.toUpperCase(),
+                document.getElementById("precode4").value.toUpperCase()
+            ].join('');
             const code = codes[precode];
             const result = document.getElementById("result");
 
@@ -211,6 +231,12 @@
                 result.textContent = `Kod: ${code}`;
             } else {
                 result.textContent = "Precode bulunamadı.";
+            }
+        }
+
+        function moveToNext(current, nextId) {
+            if (current.value.length === 1 && nextId) {
+                document.getElementById(nextId).focus();
             }
         }
     </script>
