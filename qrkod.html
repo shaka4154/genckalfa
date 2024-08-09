@@ -170,14 +170,26 @@
             color: #007bff;
         }
 
-        /* Renk seçici kare */
-        .color-preview {
-            width: 40px;
-            height: 40px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            display: inline-block;
-            vertical-align: middle;
+        /* Renk seçici yuvarlak */
+        input[type="color"] {
+            -webkit-appearance: none; /* Webkit tarayıcılarında varsayılan stili kaldırır */
+            width: 40px; /* Genişliği belirler */
+            height: 40px; /* Yüksekliği belirler */
+            border: none; /* Varsayılan kenarlığı kaldırır */
+            border-radius: 50%; /* Yuvarlak hale getirir */
+            padding: 0; /* İç boşluğu kaldırır */
+            cursor: pointer; /* Tıklanabilir yapar */
+            background: none; /* Arka plan rengini kaldırır */
+            outline: none; /* Kenarlık odaklanma çizgisini kaldırır */
+            box-shadow: 0 0 0 2px #1C3A57; /* Seçili olduğunda etrafında gölge */
+        }
+
+        input[type="color"]::-webkit-color-swatch-wrapper {
+            border-radius: 50%; /* Safari için yuvarlak yapar */
+        }
+
+        input[type="color"]::-webkit-color-swatch {
+            border-radius: 50%; /* Safari için yuvarlak yapar */
         }
 
         @media (max-width: 600px) {
@@ -216,13 +228,11 @@
         </div>
         <div class="input-group">
             <label for="colorInput">QR Kod Rengi:</label>
-            <input type="color" id="colorInput" value="#000000" onchange="updateColorPreview(event)">
-            <div id="colorPreview" class="color-preview" style="background-color: #000000;" onclick="document.getElementById('colorInput').click();"></div>
+            <input type="color" id="colorInput" value="#000000">
         </div>
         <div class="input-group">
             <label for="backgroundColorInput">QR Kod Arka Plan Rengi:</label>
-            <input type="color" id="backgroundColorInput" value="#ffffff" onchange="updateBackgroundColorPreview(event)">
-            <div id="backgroundColorPreview" class="color-preview" style="background-color: #ffffff;" onclick="document.getElementById('backgroundColorInput').click();"></div>
+            <input type="color" id="backgroundColorInput" value="#ffffff">
         </div>
         <div class="input-group">
             <label for="logoInput">Logo Yükle:</label>
@@ -264,58 +274,32 @@
         if (logoInput) {
             const reader = new FileReader();
             reader.onload = function(event) {
-                const logoDataUrl = event.target.result;
-                const qrCanvas = qrcodeContainer.querySelector('canvas');
-                const context = qrCanvas.getContext('2d');
-                const logoImage = new Image();
-                logoImage.onload = function() {
-                    const logoSize = size * 0.2; // Logo boyutu (QR kod boyutunun %20'si)
-                    const x = (qrCanvas.width - logoSize) / 2;
-                    const y = (qrCanvas.height - logoSize) / 2;
-                    context.drawImage(logoImage, x, y, logoSize, logoSize);
+                const logoImg = new Image();
+                logoImg.src = event.target.result;
+                logoImg.onload = function() {
+                    const canvas = qrcodeContainer.querySelector('canvas');
+                    const ctx = canvas.getContext('2d');
+                    const logoSize = size / 5;
+                    const logoX = (canvas.width - logoSize) / 2;
+                    const logoY = (canvas.height - logoSize) / 2;
 
-                    qrCanvas.toBlob(function(blob) {
-                        const url = URL.createObjectURL(blob);
-                        downloadButton.href = url;
-                        downloadButton.style.display = 'block';
-                    });
+                    ctx.drawImage(logoImg, logoX, logoY, logoSize, logoSize);
                 };
-                logoImage.src = logoDataUrl;
             };
             reader.readAsDataURL(logoInput);
-        } else {
-            const qrCanvas = qrcodeContainer.querySelector('canvas');
-            qrCanvas.toBlob(function(blob) {
-                const url = URL.createObjectURL(blob);
-                downloadButton.href = url;
-                downloadButton.style.display = 'block';
-            });
         }
+
+        downloadButton.href = qrcodeContainer.querySelector('canvas').toDataURL('image/png');
+        downloadButton.style.display = 'inline-block';
     }
 
     function showNotification() {
         const notification = document.getElementById('notification');
         notification.style.display = 'block';
-        setTimeout(function() {
+        setTimeout(() => {
             notification.style.display = 'none';
-        }, 3000);
+        }, 2000);
     }
-
-    function updateColorPreview(event) {
-        const color = event.target.value;
-        const colorPreview = document.getElementById('colorPreview');
-        colorPreview.style.backgroundColor = color;
-    }
-
-    function updateBackgroundColorPreview(event) {
-        const color = event.target.value;
-        const backgroundColorPreview = document.getElementById('backgroundColorPreview');
-        backgroundColorPreview.style.backgroundColor = color;
-    }
-
-    document.querySelector('.logo').addEventListener('click', function() {
-        window.location.href = 'https://www.youtube.com/@GENCKALFA';
-    });
     </script>
 </body>
-</html>    
+</html>
