@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Metin Şifreleme ve Çözme</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+        body {
+            margin: 0;
+            font-family: 'Roboto', sans-serif;
+            color: #333;
+            background-color: #f4f4f4;
+            line-height: 1.6;
+            position: relative;
+        }
+
+        .header {
+            background-color: #ffa500;
+            color: white;
+            padding: 30px;
+            text-align: center;
+            border-bottom: 4px solid #ffd700;
+            position: relative;
+        }
+
+        .header img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            margin-bottom: 10px;
+            transition: transform 0.3s;
+        }
+
+        .header img:hover {
+            transform: scale(1.1);
+        }
+
+        .header .title {
+            font-size: 3em;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .sub-header {
+            font-size: 2em;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: #002d72;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+
+        textarea, input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 2px solid #002d72;
+            border-radius: 5px;
+            background-color: white;
+            color: #333;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #004d99;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1.2em;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        button:hover {
+            background-color: #003c8f;
+            transform: scale(1.05);
+        }
+
+        #result {
+            font-size: 1.2em;
+            margin-top: 20px;
+            font-weight: 700;
+        }
+
+        .menu-return {
+            position: absolute;
+            top: 0;
+            left: 0;
+            color: white;
+            font-size: 1em;
+            text-decoration: none;
+            padding: 5px 10px;
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+            z-index: 10;
+            transition: background-color 0.3s;
+        }
+
+        .menu-return:hover {
+            background-color: rgba(0, 0, 0, 0.3);
+        }
+
+        footer {
+            background-color: #002d72;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            border-top: 4px solid #004d99;
+            position: relative;
+        }
+
+        footer a {
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: 700;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            .header .title {
+                font-size: 2.5em;
+            }
+            .sub-header {
+                font-size: 1.5em;
+            }
+            button {
+                font-size: 1em;
+                padding: 10px 15px;
+            }
+            textarea, input[type="text"] {
+                font-size: 1em;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <a class="menu-return" href="index.html">Anamenüye Dön</a>
+
+    <div class="header">
+        <a href="https://www.youtube.com/@GENCKALFA?sub_confirmation=1" target="_blank">
+            <img src="https://i.hizliresim.com/98issid.png" alt="Genç Kalfa Logo">
+        </a>
+        <div class="title">Genç Kalfa</div>
+    </div>
+
+    <div class="container">
+        <div class="sub-header">Metin Şifreleme ve Çözme</div>
+        <textarea id="plainText" placeholder="Şifrelemek veya çözmek istediğiniz metni buraya girin"></textarea>
+        <button onclick="encryptText()">Şifrele ve URL Oluştur</button>
+        <button onclick="decryptText()">Çöz</button>
+        <div id="result"></div>
+        <div id="urlResult"></div>
+        <button onclick="generateQRCode()">QR Kod Oluşturmak İçin Bas</button>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Genç Kalfa. Tüm hakları saklıdır.</p>
+        <p><a href="https://www.youtube.com/@GENCKALFA" target="_blank">YouTube Kanalımıza Abone Olun</a></p>
+    </footer>
+
+    <script>
+        function encryptText() {
+            const plainText = document.getElementById("plainText").value;
+            const encryptedText = btoa(plainText); // Base64 ile şifreleme
+            const url = window.location.href.split('?')[0] + '?message=' + encodeURIComponent(encryptedText);
+            document.getElementById("result").innerText = "Şifrelenmiş Metin: " + encryptedText;
+            document.getElementById("urlResult").innerHTML = 'Şifrelenmiş Metin URL\'si: <a href="' + url + '" target="_blank">' + url + '</a>';
+        }
+
+        function decryptText() {
+            const plainText = document.getElementById("plainText").value;
+            try {
+                const decryptedText = atob(decodeURIComponent(plainText));
+                document.getElementById("result").innerText = "Çözülmüş Metin: " + decryptedText;
+            } catch (e) {
+                document.getElementById("result").innerText = "Geçersiz şifrelenmiş metin!";
+            }
+        }
+
+        function handleURLParameters() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const encryptedText = urlParams.get('message');
+            if (encryptedText) {
+                try {
+                    const decryptedText = atob(decodeURIComponent(encryptedText));
+                    document.getElementById("result").innerText = "Çözülmüş Metin: " + decryptedText;
+                } catch (e) {
+                    document.getElementById("result").innerText = "Geçersiz şifrelenmiş metin!";
+                }
+            }
+        }
+
+        function generateQRCode() {
+            const url = 'qrkod.html'; // QR kod oluşturma sayfası URL'si
+            window.location.href = url;
+        }
+
+        window.onload = handleURLParameters;
+    </script>
+
+</body>
+</html>
