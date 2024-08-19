@@ -5,7 +5,144 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Genç Kalfa</title>
     <style>
-        /* Mevcut stil kodları buraya gelecek */
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+        body {
+            margin: 0;
+            font-family: 'Roboto', sans-serif;
+            color: #333;
+            background-color: #f4f4f4;
+            line-height: 1.6;
+        }
+
+        .header {
+            background-color: #FFA500;
+            color: white;
+            padding: 30px;
+            text-align: center;
+            border-bottom: 4px solid #Ffd700;
+            position: relative;
+        }
+
+        .header img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            margin-bottom: 10px;
+            transition: transform 0.3s;
+        }
+
+        .header img:hover {
+            transform: scale(1.1);
+        }
+
+        .header .title {
+            font-size: 3em;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .sub-header {
+            font-size: 2em;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: #002d72;
+        }
+
+        .buttons {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .button {
+            background-color: #004d99;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            border-radius: 10px;
+            text-decoration: none;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: background-color 0.3s, transform 0.3s;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .button img {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 10px;
+        }
+
+        .button:hover {
+            background-color: #003c8f;
+            transform: scale(1.05);
+        }
+
+        .button.renault img {
+            width: 80px;
+            height: 80px;
+        }
+
+        .countdown {
+            font-size: 1.5em;
+            font-weight: 700;
+            margin-top: 20px;
+            background-color: #002d72;
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        footer {
+            background-color: #ffa500;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            border-top: 4px solid #004d99;
+            position: relative;
+        }
+
+        footer a {
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: 700;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            .header .title {
+                font-size: 2.5em;
+            }
+            .sub-header {
+                font-size: 1.5em;
+            }
+            .button {
+                padding: 15px;
+                width: 100%;
+                box-sizing: border-box;
+            }
+            .button img {
+                width: 60px;
+                height: 60px;
+            }
+        }
 
         /* Modal stil kodları */
         .modal {
@@ -68,7 +205,46 @@
     <div class="container">
         <div class="sub-header">Hoşgeldin Kardeşim</div>
         <div class="buttons">
-            <!-- Mevcut butonlar buraya gelecek -->
+            <a href="rufusindir.html" class="button">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/d/de/Rufus-logo.png" alt="Rufus">
+                RUFUS
+            </a>
+            <a href="ddt4allindir.html" class="button">
+                <img src="https://i.hizliresim.com/fed3r2n.png" alt="DDT4ALL">
+                DDT4ALL
+            </a>
+            <a href="icecreamscreen.html" class="button">
+                <img src="https://i.hizliresim.com/pwi0vjh.jpeg" alt="Icecream Screen Recorder Pro">
+                ICECREAM SCREEN RECORDER PRO
+            </a>
+            <a href="qrkod.html" class="button">
+                <img src="https://i.hizliresim.com/qom43kn.jpg" alt="QR Kod Oluştur">
+                QR KOD OLUŞTUR
+            </a>
+            <a href="tarama.html" class="button">
+                <img src="https://i.hizliresim.com/itvxrex.jpg" alt="QR Kod Tarama">
+                QR KOD TARAMA
+            </a>
+            <a href="hesap.html" class="button">
+                <img src="https://i.hizliresim.com/fzyfhna.jpg" alt="Tarih Farkı Hesaplama">
+                TARİH FARKI HESAPLAMA
+            </a>
+            <a href="kronometre.html" class="button">
+                <img src="https://i.hizliresim.com/h3qdkjv.jpg" alt="Kronometre">
+                KRONOMETRE
+            </a>
+            <a href="kaçgün.html" class="button">
+                <img src="https://i.hizliresim.com/fzyfhna.jpg" alt="Kaç Gün Kaldı">
+                KAÇ GÜN KALDI
+            </a>
+            <a href="renocode.html" class="button renault">
+                <img src="https://i.hizliresim.com/h3k4naj.png" alt="Renault Radyo Kodu Bulucu">
+                RENAULT RADYO KODU BULUCU
+            </a>
+            <a href="sifre.html" class="button">
+                <img src="https://i.hizliresim.com/91bp0kn.jpeg" alt="Metin Şifreleme">
+                METİN ŞİFRELEME
+            </a>
         </div>
         <div class="countdown" id="countdown"></div>
     </div>
@@ -83,10 +259,11 @@
         <div class="modal-content">
             <div class="modal-header">Gizlilik Politikası</div>
             <div class="modal-body">
-                <iframe src="zorunlu/gizlilik.html" style="width: 100%; height: 300px; border: none;"></iframe>
+                <p>Gizlilik politikamız hakkında bilgi almak için lütfen <a href="gizlilik.html" target="_blank">Gizlilik Politikasını</a> okuyun.</p>
             </div>
             <div class="modal-footer">
-                <button onclick="acceptTerms('gizlilik')">Kabul Et</button>
+                <button onclick="acceptGizlilik()">Kabul Et</button>
+                <button onclick="closeModal('gizlilikModal')">Kapat</button>
             </div>
         </div>
     </div>
@@ -95,38 +272,69 @@
         <div class="modal-content">
             <div class="modal-header">Kullanım Hakları</div>
             <div class="modal-body">
-                <iframe src="zorunlu/kullanim.html" style="width: 100%; height: 300px; border: none;"></iframe>
+                <p>Kullanım haklarımız hakkında bilgi almak için lütfen <a href="kullanim.html" target="_blank">Kullanım Hakları Sayfasını</a> okuyun.</p>
             </div>
             <div class="modal-footer">
-                <button onclick="acceptTerms('kullanim')">Kabul Et</button>
+                <button onclick="acceptKullanim()">Kabul Et</button>
+                <button onclick="closeModal('kullanimModal')">Kapat</button>
             </div>
         </div>
     </div>
 
     <script>
-        function showModal(modalId) {
-            document.getElementById(modalId).style.display = "block";
-        }
+        // Okulun açılma tarihi
+        const schoolStartDate = new Date('September 9, 2024 07:00:00').getTime();
 
-        function acceptTerms(type) {
-            localStorage.setItem(type + "Accepted", "true");
-            document.getElementById(type + "Modal").style.display = "none";
-            checkAcceptance(); // İki modalın durumunu kontrol et
-        }
+        // Sayaç fonksiyonu
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const timeLeft = schoolStartDate - now;
 
-        function checkAcceptance() {
-            const gizlilikAccepted = localStorage.getItem("gizlilikAccepted");
-            const kullanimAccepted = localStorage.getItem("kullanimAccepted");
+            const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
 
-            if (!gizlilikAccepted) {
-                showModal("gizlilikModal");
-            } else if (!kullanimAccepted) {
-                showModal("kullanimModal");
+            document.getElementById('countdown').innerHTML = `
+                Okulun açılmasına ${days} gün ${hours} saat ${minutes} dakika ${seconds} saniye kaldı.
+            `;
+
+            if (timeLeft < 0) {
+                clearInterval(interval);
+                document.getElementById('countdown').innerHTML = "Okul Açıldı!";
             }
         }
 
-        // Sayfa yüklendiğinde kabul durumunu kontrol et
-        window.onload = checkAcceptance;
+        // Sayacı başlat
+        const interval = setInterval(updateCountdown, 1000);
+
+        // Modal fonksiyonları
+        function openModal(modalId) {
+            document.getElementById(modalId).style.display = 'block';
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+
+        function acceptGizlilik() {
+            // Kullanıcı gizlilik politikalarını kabul ettiğinde yapılacak işlemler
+            closeModal('gizlilikModal');
+        }
+
+        function acceptKullanim() {
+            // Kullanıcı kullanım haklarını kabul ettiğinde yapılacak işlemler
+            closeModal('kullanimModal');
+        }
+
+        // Gizlilik ve Kullanım Hakları butonlarına olay dinleyicileri ekle
+        document.querySelector('.button.gizlilik').addEventListener('click', function() {
+            openModal('gizlilikModal');
+        });
+
+        document.querySelector('.button.kullanim').addEventListener('click', function() {
+            openModal('kullanimModal');
+        });
     </script>
 </body>
 </html>
