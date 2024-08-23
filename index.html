@@ -143,55 +143,6 @@
                 height: 60px;
             }
         }
-
-        /* Modal stil kodları */
-        .modal {
-            display: none; /* Varsayılan olarak gizli */
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-            background-color: rgba(0, 0, 0, 0.5);
-            padding-top: 60px;
-        }
-
-        .modal-content {
-            background-color: #fff;
-            margin: 5% auto;
-            padding: 20px;
-            border: 1px solid #888;
-            width: 80%;
-            max-width: 600px;
-            border-radius: 10px;
-        }
-
-        .modal-header {
-            font-size: 1.5em;
-            font-weight: 700;
-            margin-bottom: 20px;
-        }
-
-        .modal-footer {
-            text-align: right;
-            margin-top: 20px;
-        }
-
-        .modal-footer button {
-            background-color: #004d99;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-
-        .modal-footer button:hover {
-            background-color: #003c8f;
-        }
     </style>
 </head>
 <body>
@@ -237,6 +188,10 @@
                 <img src="https://i.hizliresim.com/fzyfhna.jpg" alt="Kaç Gün Kaldı">
                 KAÇ GÜN KALDI
             </a>
+            <a href="makine.html" class="button">
+                <img src="https://www.virtualbox.org/graphics/vbox_logo2_gradient.png" alt="Sanal Makine">
+                SANAL MAKİNE KURMA
+            </a>
             <a href="renocode.html" class="button renault">
                 <img src="https://i.hizliresim.com/h3k4naj.png" alt="Renault Radyo Kodu Bulucu">
                 RENAULT RADYO KODU BULUCU
@@ -253,33 +208,6 @@
         <p>&copy; 2024 Genç Kalfa. Tüm hakları saklıdır.</p>
         <p><a href="https://www.youtube.com/@GENCKALFA" target="_blank">YouTube Kanalımıza Abone Olun</a></p>
     </footer>
-
-    <!-- Gizlilik ve Kullanım Hakları Modalları -->
-    <div id="gizlilikModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">Gizlilik Politikası</div>
-            <div class="modal-body">
-                <p>Gizlilik politikamız hakkında bilgi almak için lütfen <a href="gizlilik.html" target="_blank">Gizlilik Politikasını</a> okuyun.</p>
-            </div>
-            <div class="modal-footer">
-                <button onclick="acceptGizlilik()">Kabul Et</button>
-                <button onclick="closeModal('gizlilikModal')">Kapat</button>
-            </div>
-        </div>
-    </div>
-
-    <div id="kullanimModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">Kullanım Hakları</div>
-            <div class="modal-body">
-                <p>Kullanım haklarımız hakkında bilgi almak için lütfen <a href="kullanim.html" target="_blank">Kullanım Hakları Sayfasını</a> okuyun.</p>
-            </div>
-            <div class="modal-footer">
-                <button onclick="acceptKullanim()">Kabul Et</button>
-                <button onclick="closeModal('kullanimModal')">Kapat</button>
-            </div>
-        </div>
-    </div>
 
     <script>
         // Okulun açılma tarihi
@@ -307,34 +235,6 @@
 
         // Sayacı başlat
         const interval = setInterval(updateCountdown, 1000);
-
-        // Modal fonksiyonları
-        function openModal(modalId) {
-            document.getElementById(modalId).style.display = 'block';
-        }
-
-        function closeModal(modalId) {
-            document.getElementById(modalId).style.display = 'none';
-        }
-
-        function acceptGizlilik() {
-            // Kullanıcı gizlilik politikalarını kabul ettiğinde yapılacak işlemler
-            closeModal('gizlilikModal');
-        }
-
-        function acceptKullanim() {
-            // Kullanıcı kullanım haklarını kabul ettiğinde yapılacak işlemler
-            closeModal('kullanimModal');
-        }
-
-        // Gizlilik ve Kullanım Hakları butonlarına olay dinleyicileri ekle
-        document.querySelector('.button.gizlilik').addEventListener('click', function() {
-            openModal('gizlilikModal');
-        });
-
-        document.querySelector('.button.kullanim').addEventListener('click', function() {
-            openModal('kullanimModal');
-        });
     </script>
 </body>
 </html>
