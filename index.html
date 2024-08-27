@@ -187,6 +187,10 @@
 
         <!-- Uygulama İndirme Butonu -->
         <div class="download-section">
+            <a href="uygulama.html" class="download-button">
+                <img src="https://i.hizliresim.com/gomkbij.png" alt="Uygulamamı İndirin">
+                UYGULAMAMI İNDİR!!
+            </a>
         </div>
 
         <div class="buttons">
@@ -229,10 +233,11 @@
             <a href="renocode.html" class="button renault">
                 <img src="https://i.hizliresim.com/h3k4naj.png" alt="Renault Radyo Kodu Bulucu">
                 RENAULT RADYO KODU BULUCU
-                <a href="uygulama.html" class="download-button">
-                <img src="https://i.hizliresim.com/gomkbij.png" alt="Uygulamamı İndirin">
-                UYGULAMAMI İNDİR!!
             </a>
+            <!-- Mağaza Butonu -->
+            <a href="magaza.html" class="button">
+                <img src="https://i.hizliresim.com/mm83zq1.png" alt="Uygulama Mağazası">
+                UYGULAMA MAĞAZASI
             </a>
             <a href="şifre.html" class="button">
                 <img src="https://i.hizliresim.com/i39983t.png" alt="Metin Şifreleme">
@@ -243,35 +248,25 @@
     </div>
 
     <footer>
-        <p>&copy; 2024 Genç Kalfa. Tüm hakları saklıdır.</p>
-        <p><a href="https://www.youtube.com/@GENCKALFA" target="_blank">YouTube Kanalımıza Abone Olun</a></p>
-    </footer/>
+        <p>© 2024 Genç Kalfa - <a href="https://www.youtube.com/@GENCKALFA" target="_blank">YouTube Kanalımız</a></p>
+    </footer>
+
     <script>
-        // Okulun açılma tarihi
-        const schoolStartDate = new Date('September 9, 2024 07:00:00').getTime();
-
-        // Sayaç fonksiyonu
+        // Countdown Timer
         function updateCountdown() {
-            const now = new Date().getTime();
-            const timeLeft = schoolStartDate - now;
+            const targetDate = new Date('2024-09-30T00:00:00');
+            const now = new Date();
+            const timeDifference = targetDate - now;
+            const days = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((timeDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((timeDifference % (1000 * 60)) / 1000);
 
-            const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
-
-            document.getElementById('countdown').innerHTML = `
-                Okulun açılmasına ${days} gün ${hours} saat ${minutes} dakika ${seconds} saniye kaldı.
-            `;
-
-            if (timeLeft < 0) {
-                clearInterval(interval);
-                document.getElementById('countdown').innerHTML = "Okul Açıldı!";
-            }
+            document.getElementById('countdown').textContent = 
+                `Kalan Süre: ${days} Gün ${hours} Saat ${minutes} Dakika ${seconds} Saniye`;
         }
 
-        // Sayacı başlat
-        const interval = setInterval(updateCountdown, 1000);
+        setInterval(updateCountdown, 1000);
     </script>
 </body>
 </html>
