@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Uygulama Mağazası</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 20px;
+        }
+        .search-bar {
+            max-width: 600px;
+            margin: 0 auto 30px auto;
+            text-align: center;
+        }
+        .search-bar input {
+            width: 100%;
+            padding: 12px;
+            font-size: 18px;
+            border: 2px solid #007bff;
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        }
+        .app-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+        }
+        .app-card {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+            width: 280px;
+            text-align: center;
+            transition: transform 0.3s;
+        }
+        .app-card:hover {
+            transform: translateY(-5px);
+        }
+        .app-card img {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+        .app-card h2 {
+            font-size: 20px;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        .app-card p {
+            color: #555;
+            margin-bottom: 15px;
+        }
+        .app-card a {
+            text-decoration: none;
+            background-color: #007bff;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 8px;
+            display: inline-block;
+            box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
+            transition: background-color 0.3s, box-shadow 0.3s;
+        }
+        .app-card a:hover {
+            background-color: #0056b3;
+            box-shadow: 0 6px 18px rgba(0, 123, 255, 0.4);
+        }
+        .form-link {
+            text-align: center;
+            margin-top: 30px;
+        }
+        .form-link a {
+            text-decoration: none;
+            background-color: #28a745;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-size: 16px;
+            box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
+            transition: background-color 0.3s, box-shadow 0.3s;
+        }
+        .form-link a:hover {
+            background-color: #218838;
+            box-shadow: 0 6px 18px rgba(0, 123, 255, 0.4);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="search-bar">
+        <input type="text" id="searchInput" placeholder="Uygulama adıyla arayın..." onkeyup="searchApps()">
+    </div>
+
+    <div class="app-container" id="appContainer">
+        <!-- Genç Kalfa Uygulaması -->
+        <div class="app-card">
+            <img src="https://i.hizliresim.com/gomkbij.png" alt="Genç Kalfa Uygulaması">
+            <h2>Genç Kalfa</h2>
+            <p>Geliştirici: Ahmet Kaan Akdeniz</p>
+            <a href="genc-kalfa.html">Detaylar</a>
+        </div>
+    </div>
+
+    <div class="form-link">
+        <a href="https://forms.gle/7Pbx9BpZrp8eBVVv7" target="_blank">Uygulama Eklemek İçin Formu Doldurun</a>
+    </div>
+
+    <script>
+        function searchApps() {
+            var input, filter, container, cards, h2, i, txtValue;
+            input = document.getElementById("searchInput");
+            filter = input.value.toLowerCase();
+            container = document.getElementById("appContainer");
+            cards = container.getElementsByClassName("app-card");
+
+            for (i = 0; i < cards.length; i++) {
+                h2 = cards[i].getElementsByTagName("h2")[0];
+                txtValue = h2.textContent || h2.innerText;
+                if (txtValue.toLowerCase().indexOf(filter) > -1) {
+                    cards[i].style.display = "";
+                } else {
+                    cards[i].style.display = "none";
+                }
+            }
+        }
+    </script>
+
+</body>
+</html>
