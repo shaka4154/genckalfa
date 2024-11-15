@@ -20,7 +20,7 @@
         }
         .header {
             position: absolute;
-            top: 10px; /* Logoyu yukarıya taşıdık */
+            top: 10px;
             left: 50%;
             transform: translateX(-50%);
             display: flex;
@@ -33,7 +33,7 @@
             cursor: pointer;
         }
         .title {
-            margin: 100px 0 20px 0; /* Başlık ile logo arasındaki mesafeyi arttırır */
+            margin: 100px 0 20px 0;
             font-size: 2em;
             color: #1C3A57;
             text-transform: uppercase;
@@ -63,6 +63,20 @@
         }
         .button:hover {
             background-color: #285480;
+        }
+        .flash-button {
+            background-color: #FFA500;
+            color: white;
+            padding: 0.5em 1.5em;
+            font-size: 1em;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-top: 10px;
+        }
+        .flash-button:hover {
+            background-color: #ffb733;
         }
         video {
             border: 5px solid #1C3A57;
@@ -111,7 +125,7 @@
             color: #007bff;
         }
         .file-input {
-            display: none; /* Dosya seçme alanını gizle */
+            display: none;
             margin-top: 20px;
         }
         @media (max-width: 600px) {
@@ -146,6 +160,7 @@
     <div class="title">QR Kod Tarayıcı</div>
     <div class="container">
         <button class="button" id="startButton">Hemen Tara</button>
+        <button class="flash-button" id="flashButton" style="display: none;">Fener Aç</button>
         <video id="video" autoplay></video>
         <div class="result" id="result"></div>
         <input type="file" id="fileInput" class="file-input" accept="image/*">
@@ -157,33 +172,56 @@
         const video = document.getElementById('video');
         const result = document.getElementById('result');
         const fileInput = document.getElementById('fileInput');
+        const flashButton = document.getElementById('flashButton');
         const logoContainer = document.getElementById('logoContainer');
         const backButton = document.querySelector('.back-button');
         let selectedDeviceId;
-
-        const codeReader = new ZXing.BrowserQRCodeReader();
+        let codeReader;
+        let track;
 
         startButton.addEventListener('click', () => {
-            startButton.style.display = 'none'; // Butonu gizle
-            logoContainer.style.display = 'none'; // Logoyu gizle
-            backButton.style.display = 'block'; // 'Anamenüye Dön' butonunu gizle
-            fileInput.style.display = 'block'; // Dosya seçme alanını göster
+            startButton.style.display = 'none';
+            logoContainer.style.display = 'none';
+            backButton.style.display = 'block';
+            fileInput.style.display = 'block';
+            flashButton.style.display = 'inline-block';
+
+            codeReader = new ZXing.BrowserQRCodeReader();
+
             codeReader.listVideoInputDevices().then(devices => {
                 const rearCamera = devices.find(device => device.label.toLowerCase().includes('back')) || devices[0];
                 selectedDeviceId = rearCamera.deviceId;
 
-                video.style.display = 'block'; // Videoyu göster
+                video.style.display = 'block';
 
                 codeReader.decodeFromVideoDevice(selectedDeviceId, video, (result, error) => {
                     if (result) {
-                        video.style.display = 'none'; // Kamerayı gizle
-                        backButton.style.display = 'block'; // 'Anamenüye Dön' butonunu gizle
+                        video.style.display = 'none';
+                        backButton.style.display = 'block';
+                        flashButton.style.display = 'none';
                         showResult(result.text);
                     } else if (error) {
                         console.error(error);
                     }
+                }).then(stream => {
+                    track = stream.getVideoTracks()[0];
                 });
             }).catch(err => console.error(err));
+        });
+
+        flashButton.addEventListener('click', () => {
+            if (track) {
+                const capabilities = track.getCapabilities();
+                if (capabilities.torch) {
+                    track.applyConstraints({
+                        advanced: [{ torch: !flashButton.isActive }]
+                    });
+                    flashButton.isActive = !flashButton.isActive;
+                    flashButton.textContent = flashButton.isActive ? 'Fener Kapat' : 'Fener Aç';
+                } else {
+                    alert("Fener açma özelliği desteklenmiyor.");
+                }
+            }
         });
 
         fileInput.addEventListener('change', () => {
@@ -207,14 +245,13 @@
         });
 
         function showResult(text) {
-            result.style.display = 'block'; // Sonuç kutusunu göster
+            result.style.display = 'block';
             if (text.startsWith('http')) {
                 result.innerHTML = `Kod içeriği: <a href="${text}" target="_blank">${text}</a>`;
             } else {
                 result.textContent = `Kod içeriği: ${text}`;
             }
         }
-        
     </script>
 </body>
 </html>
