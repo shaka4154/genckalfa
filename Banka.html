@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Banka Hesapları</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f3f3f3;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        input, button {
+            margin-top: 10px;
+            padding: 10px;
+            width: 100%;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+        button {
+            background: #007BFF;
+            color: white;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container" id="hesapOlustur">
+    <h2>Hesap Oluştur</h2>
+    <input type="text" id="hesapAdi1" placeholder="Hesap Adı 1">
+    <input type="password" id="sifre1" placeholder="Şifre 1">
+    <input type="text" id="bakiye1" placeholder="Başlangıç Bakiyesi" oninput="formatBakiye(this)">
+    
+    <input type="text" id="hesapAdi2" placeholder="Hesap Adı 2">
+    <input type="password" id="sifre2" placeholder="Şifre 2">
+    <input type="text" id="bakiye2" placeholder="Başlangıç Bakiyesi" oninput="formatBakiye(this)">
+    
+    <button onclick="hesapOlustur()">Hesapları Oluştur</button>
+</div>
+
+<div class="container hidden" id="hesapGirisi">
+    <h2>Hesap Girişi</h2>
+    <input type="text" id="girisHesapAdi" placeholder="Hesap Adı">
+    <input type="password" id="girisSifre" placeholder="Şifre">
+    <button onclick="girisYap()">Giriş Yap</button>
+    <p id="girisSonuc"></p>
+</div>
+
+<div class="container hidden" id="hesapKontrol">
+    <h2>Hesap Kontrol</h2>
+    <p>Aktif Hesap: <span id="aktifHesap"></span></p>
+    <p>Bakiye: <span id="hesapBakiyesi"></span></p>
+    <button onclick="hesapDegistir()">Hesap Değiştir</button>
+
+    <h3>Para Gönder</h3>
+    <input type="text" id="hedefHesap" placeholder="Gönderilecek Hesap Adı">
+    <input type="text" id="gonderilenTutar" placeholder="Gönderilecek Tutar" oninput="formatBakiye(this)">
+    <button onclick="paraGonder()">Para Gönder</button>
+
+    <h3>Başkası Para Göndermiş Gibi Yap</h3>
+    <input type="text" id="sahteGonderici" placeholder="Gönderen Hesap Adı">
+    <input type="text" id="sahteMiktar" placeholder="Gönderilecek Tutar" oninput="formatBakiye(this)">
+    <button onclick="sahteParaTransferi()">Başkası Para Göndermiş Gibi Yap</button>
+
+    <h3>Hesap Hareketleri</h3>
+    <div id="hesapHareketleri"></div>
+</div>
+
+<script>
+    let hesaplar = {};
+    let aktifHesap = null;
+
+    function formatBakiye(input) {
+        let value = input.value.replace(/\D/g, '');
+        input.value = Number(value).toLocaleString('tr-TR');
+    }
+
+    function hesapOlustur() {
+        let hesapAdi1 = document.getElementById("hesapAdi1").value;
+        let sifre1 = document.getElementById("sifre1").value;
+        let bakiye1 = parseInt(document.getElementById("bakiye1").value.replace(/\./g, ''));
+
+        let hesapAdi2 = document.getElementById("hesapAdi2").value;
+        let sifre2 = document.getElementById("sifre2").value;
+        let bakiye2 = parseInt(document.getElementById("bakiye2").value.replace(/\./g, ''));
+
+        hesaplar[hesapAdi1] = { sifre: sifre1, bakiye: bakiye1, hareketler: [] };
+        hesaplar[hesapAdi2] = { sifre: sifre2, bakiye: bakiye2, hareketler: [] };
+
+        alert("Hesaplar başarıyla oluşturuldu!");
+        document.getElementById("hesapOlustur").classList.add("hidden");
+        document.getElementById("hesapGirisi").classList.remove("hidden");
+    }
+
+    function girisYap() {
+        let girisHesapAdi = document.getElementById("girisHesapAdi").value;
+        let girisSifre = document.getElementById("girisSifre").value;
+
+        if (hesaplar[girisHesapAdi] && hesaplar[girisHesapAdi].sifre === girisSifre) {
+            aktifHesap = girisHesapAdi;
+            document.getElementById("aktifHesap").textContent = aktifHesap;
+            document.getElementById("hesapBakiyesi").textContent = formatPara(hesaplar[aktifHesap].bakiye);
+            document.getElementById("hesapGirisi").classList.add("hidden");
+            document.getElementById("hesapKontrol").classList.remove("hidden");
+            guncelleHesapHareketleri();
+        } else {
+            document.getElementById("girisSonuc").textContent = "Hatalı hesap adı veya şifre!";
+        }
+    }
+
+    function paraGonder() {
+        let hedefHesap = document.getElementById("hedefHesap").value;
+        let gonderilenTutar = parseInt(document.getElementById("gonderilenTutar").value.replace(/\./g, ''));
+
+        if (hesaplar[aktifHesap].bakiye < gonderilenTutar) {
+            alert("Yetersiz bakiye!");
+            return;
+        }
+
+        hesaplar[aktifHesap].bakiye -= gonderilenTutar;
+        hesaplar[aktifHesap].hareketler.push(`${hedefHesap} hesabına ${formatPara(gonderilenTutar)} gönderildi.`);
+        document.getElementById("hesapBakiyesi").textContent = formatPara(hesaplar[aktifHesap].bakiye);
+        guncelleHesapHareketleri();
+    }
+
+    function sahteParaTransferi() {
+        let sahteGonderici = document.getElementById("sahteGonderici").value;
+        let sahteMiktar = parseInt(document.getElementById("sahteMiktar").value.replace(/\./g, ''));
+
+        hesaplar[aktifHesap].bakiye += sahteMiktar;
+        hesaplar[aktifHesap].hareketler.push(`${sahteGonderici} hesabından ${formatPara(sahteMiktar)} geldi.`);
+        document.getElementById("hesapBakiyesi").textContent = formatPara(hesaplar[aktifHesap].bakiye);
+        guncelleHesapHareketleri();
+    }
+
+    function hesapDegistir() {
+        aktifHesap = null;
+        document.getElementById("hesapKontrol").classList.add("hidden");
+        document.getElementById("hesapGirisi").classList.remove("hidden");
+    }
+
+    function formatPara(tutar) {
+        return tutar.toLocaleString('tr-TR') + " TL";
+    }
+
+    function guncelleHesapHareketleri() {
+        let hareketler = hesaplar[aktifHesap].hareketler;
+        let hareketHTML = hareketler.map(h => `<p>${h}</p>`).join('');
+        document.getElementById("hesapHareketleri").innerHTML = hareketHTML || "<p>Henüz işlem yapılmadı.</p>";
+    }
+</script>
+
+</body>
+</html>
